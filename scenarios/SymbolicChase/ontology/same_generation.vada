@@ -1,0 +1,20 @@
+@bind("arc", "csv useHeaders=true", "/../graphs", "ARC.csv").
+
+@input("arc").
+
+# σ1: If two nodes share a parent and are not equal, they are in the same generation
+# 1
+sg(X, Y) :-
+    arc(P, X),
+    arc(P, Y),
+    X <> Y.
+
+# σ2: Same generation is preserved through their respective children
+# 2
+sg(X, Y) :-
+    arc(A, X),
+    sg(A, B),
+    arc(B, Y).
+
+@output("sg").
+@executionMode("distributed").

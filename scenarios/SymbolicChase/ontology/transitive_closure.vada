@@ -1,0 +1,17 @@
+@bind("arc", "csv useHeaders=true", "/../graphs", "ARC.csv").
+
+@input("arc").
+
+# σ1: A direct arc implies a transitive connection
+# 1
+tc(X, Y) :-
+    arc(X, Y).
+
+# σ2: Transitive closure through intermediate nodes
+# 2
+tc(X, Z) :-
+    tc(X, Y),
+    arc(Y, Z).
+
+@output("tc").
+@executionMode("distributed").
