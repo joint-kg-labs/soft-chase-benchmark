@@ -1,0 +1,29 @@
+@bind("isin",  "csv useHeaders=true", "/../dataset",  "ISIN.csv").
+@bind("cusip", "csv useHeaders=true", "/../dataset", "CUSIP.csv").
+@bind("figi",  "csv useHeaders=true", "/../dataset",  "FIGI.csv").
+@bind("sedol", "csv useHeaders=true", "/../dataset", "SEDOL.csv").
+
+@input("isin").
+@input("cusip").
+@input("figi").
+@input("sedol").
+
+# 1-4: introduce a fresh internal ID for each external identifier
+# 1
+id(I, ISIN, N, D, C, T)   :- isin(ISIN, N, D, C, T).
+# 2
+id(I, CUSIP, N, D, C, T) :- cusip(CUSIP, N, D, C, T).
+# 3
+id(I, FIGI, N, D, C, T)   :- figi(FIGI, N, D, C, T).
+# 4
+id(I, SEDOL, N, D, C, T) :- sedol(SEDOL, N, D, C, T).
+
+# 5: unify internal IDs when two records share all semantic fields but differ on the external code
+I1 = I2 :-
+    id(I1, ID1, N, D, C, T),
+    id(I2, ID2, N, D, C, T),
+    ID1 <> ID2.
+
+@output("id").
+@executionMode("distributed").
+

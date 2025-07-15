@@ -1,0 +1,20 @@
+{
+  "glossary_type": "Long",
+  "domain_context": "This scenario addresses the challenge of integrating financial instrument records identified under multiple international and regional coding systems: ISIN (global), CUSIP (U.S. and Canada), FIGI (Bloomberg's global ID), and SEDOL (UK and Ireland). Each source encodes a record for a financial instrument that includes: (1) an identifier code (e.g., 'US0378331005'), (2) a name (e.g., 'Apple Inc. Common Stock'), (3) a textual description, (4) a country of issuance (e.g., 'US', 'GB'), and (5) a financial instrument type (e.g., 'Equity', 'Bond', 'ETF', 'Option', 'Derivative').\n\nSoft reconciliation is required because the same instrument may appear across sources with slight variations (e.g., abbreviation vs. full name, typographic inconsistencies, truncated descriptions). Therefore, the fields name, description, country, and type are used for matching — but not all have equal reliability:\n\n- The 'name' field is the most informative for matching, but may vary due to corporate actions or abbreviations.\n- The 'description' can be inconsistent or verbose, often containing marketing or trading-related info.\n- The 'country' is usually consistent and should be considered a strong signal.\n- The 'type' can be ambiguous (e.g., 'Equity' vs. 'Stock'), so synonyms and domain-specific mappings should be taken into account.\n\nTips for LLM-based soft matching:\n- Treat 'Equity', 'Stock', and 'Common Stock' as equivalent.\n- Pay attention to formatting variations like dashes, commas, or suffixes (e.g., 'PLC', 'Corp.', 'Inc.').\n- Ignore minor word order changes in descriptions.\n- For instrument names, casing and punctuation should not affect equivalence.\n\nIdentifiers are considered semantically equivalent if all fields match approximately, with tolerances as above. The glossary aims to expose these equivalences to the LLM via rule and predicate verbalizations.",
+  "predicate_verbalization": {
+    "ISIN": "The financial instrument with ISIN code arg0 is named arg1, described as arg2, issued in country arg3, and belongs to type arg4.",
+    "CUSIP": "CUSIP code arg0 refers to a financial instrument named arg1, with description arg2, issued in country arg3, and belongs to type arg4.",
+    "FIGI": "FIGI code arg0 is used to identify the instrument called arg1, described as arg2, issued in country arg3, and belongs to type arg4.",
+    "SEDOL": "The instrument with SEDOL code arg0 has the name arg1, the description arg2, is issued in country arg3, and belongs to type arg4.",
+    "Id": "The internal ID arg0 is assigned to identifier arg1 and refers to a financial instrument named arg2, described as arg3, issued in a country arg4, and belongs to type arg5.",
+    "Link": "There is a link between identifier arg0 and identifier arg1 because they both point to the same instrument with internal ID."
+  },
+  "rule_verbalization": {
+    "1": "If a financial instrument is identified via ISIN code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",
+    "2": "If a financial instrument is identified via CUSIP code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",
+    "3": "If a financial instrument is identified via FIGI code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",
+    "4": "If a financial instrument is identified via SEDOL code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",
+    "5": "If two instruments have the same name, description, country, and type but different identifiers, then merge their internal IDs to ensure they are treated as the same instrument.",
+    "Q": "If two identifiers refer to the same internal instrument ID, then a Link is created between those identifiers."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "Example1": {
+    "Ex1_Fact1": "The identifier “US5949181045” refers to instrument ID iA, named “Microsoft Corp.”, described as “Common Stock of Microsoft”, issued in country “US”, of type “Equity”.",
+    "Ex1_Fact2": "The identifier “594918104” refers to instrument ID iB, named “Microsoft Corporation”, described as “Microsoft common stock”, issued in country “United States”, of type “Stock”.",
+    "Ex1_Decision": "Yes",
+    "Ex1_Explanation": "Names (“Microsoft Corp.” ≃ “Microsoft Corporation”), descriptions, country (“US” ≃ “United States”), and type (“Equity” ≃ “Stock”) all align semantically."
+  },
+  "Example2": {
+    "Ex2_Fact1": "The identifier “US0231351067” refers to instrument ID iC, named “Amazon.com Inc.”, described as “Retail and Cloud Services”, issued in country “US”, of type “Equity”.",
+    "Ex2_Fact2": "The identifier “023135106” refers to instrument ID iD, named “Amazon Inc.”, described as “Online retail only”, issued in country “US”, of type “Equity”.",
+    "Ex2_Decision": "No",
+    "Ex2_Explanation": "Descriptions differ in scope (“Retail and Cloud Services” vs. “Online retail only”), so they denote distinct instruments."
+  },
+  "Example3": {
+    "Ex3_Fact1": "The identifier “US02079K3059” refers to instrument ID iE, named “Alphabet Inc.”, described as “Class C Capital Stock”, issued in country “US”, of type “Equity”.",
+    "Ex3_Fact2": "The identifier “02079K1079” refers to instrument ID iF, named “Google LLC”, described as “Class A Common Stock”, issued in country “US”, of type “Equity”.",
+    "Ex3_Decision": "No",
+    "Ex3_Explanation": "The names (“Alphabet Inc.” vs. “Google LLC”) and share classes (“Class C” vs. “Class A”) differ, indicating separate instruments."
+  }
+}

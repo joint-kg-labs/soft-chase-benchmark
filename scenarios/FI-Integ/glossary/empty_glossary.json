@@ -1,0 +1,20 @@
+{
+  "glossary_type": "Empty",
+  "domain_context": "",
+  "predicate_verbalization": {
+    "ISIN": "ISIN(arg0, arg1, arg2, arg3, arg4)",
+    "CUSIP": "CUSIP(arg0, arg1, arg2, arg3, arg4)",
+    "FIGI": "FIGI(arg0, arg1, arg2, arg3, arg4)",
+    "SEDOL": "SEDOL(arg0, arg1, arg2, arg3, arg4)",
+    "Id": "Id(arg0, arg1, arg2, arg3, arg4, arg5)",
+    "Link": "Link(arg0, arg1)"
+  },
+  "rule_verbalization": {
+    "1": "If ISIN(arg0, arg1, arg2, arg3, arg4) holds, then Id(argX, arg0, arg1, arg2, arg3, arg4) holds.",
+    "2": "If CUSIP(arg0, arg1, arg2, arg3, arg4) holds, then Id(argX, arg0, arg1, arg2, arg3, arg4) holds.",
+    "3": "If FIGI(arg0, arg1, arg2, arg3, arg4) holds, then Id(argX, arg0, arg1, arg2, arg3, arg4) holds.",
+    "4": "If SEDOL(arg0, arg1, arg2, arg3, arg4) holds, then Id(argX, arg0, arg1, arg2, arg3, arg4) holds.",
+    "5": "If Id(i1, id1, n, d, c, t) and Id(i2, id2, n, d, c, t) hold and id1 ≠ id2, then i1 = i2.",
+    "Q": "If Id(i, id1, ...) and Id(i, id2, ...) hold, then Link(id1, id2, i) holds."
+  }
+}

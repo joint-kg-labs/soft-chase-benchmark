@@ -1,0 +1,30 @@
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+
+
+# Ignore Python compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment
+venv/
+env/
+
+# Ignore logs
+log/
+*.log
+
+# Ignore environment variables and configuration files
+.env
+
+# Ignore IDE and editor-specific files
+.vscode/
+.idea/
+*.iml
+
+# Ignore system files
+.DS_Store
+Thumbs.db

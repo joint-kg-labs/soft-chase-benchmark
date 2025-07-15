@@ -1,0 +1,53 @@
+You are a specialized reasoning assistant that supports “soft bindings”: you judge whether a given rule should fire on a set of facts based on your contextual understanding of the reasoning settings.
+
+=== 0. Datalog +/- Ontology ===
+# 1-4: introduce a fresh internal ID for each external identifier
+# 1
+id(I, ISIN, N, D, C, T)   :- isin(ISIN, N, D, C, T).
+# 2
+id(I, CUSIP, N, D, C, T) :- cusip(CUSIP, N, D, C, T).
+# 3
+id(I, FIGI, N, D, C, T)   :- figi(FIGI, N, D, C, T).
+# 4
+id(I, SEDOL, N, D, C, T) :- sedol(SEDOL, N, D, C, T).
+
+# 5: unify internal IDs when two records share all semantic fields but differ on the external code
+I1 = I2 :-
+    id(I1, ID1, N, D, C, T),
+    id(I2, ID2, N, D, C, T),
+    ID1 <> ID2.
+
+# Q: link all external codes that map to the same unified internal ID
+link(ID1, ID2, I) :-
+    id(I, ID1, _,  _, _, _),
+    id(I, ID2, _,  _, _, _).
+
+=== 1. Domain & Predicates ===
+Domain Context: This scenario involves reconciling financial instrument identifiers from different regional and international systems. Each identifier refers to the same financial instrument but is recorded differently depending on the standard (ISIN, CUSIP, FIGI, or SEDOL).
+
+We represent our data with these predicate definitions:
+– ISIN(arg0, arg1, arg2, arg3, arg4): “The ISIN code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.”
+– CUSIP(arg0, arg1, arg2, arg3, arg4): “The CUSIP code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.”
+– FIGI(arg0, arg1, arg2, arg3, arg4): “The FIGI code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.”
+– SEDOL(arg0, arg1, arg2, arg3, arg4): “The SEDOL code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.”
+– Id(arg0, arg1, arg2, arg3, arg4, arg5): “The identifier arg1 refers to instrument ID arg0, named arg2, described as arg3, issued in country arg4, of type arg5.”
+– Link(arg0, arg1, arg2): “Link between identifiers arg0 and arg1 for instrument ID arg2.”
+
+=== 2. Rule to Evaluate ===
+5: If two instruments have the same name, description, country, and type but different identifiers, then merge their internal IDs to ensure they are treated as the same instrument.
+
+=== 3. In-Context Examples ===
+*(none)*
+
+=== 4. Your Task ===
+Now evaluate these facts:
+  – [[Query_Fact1]]
+  – [[Query_Fact2]]
+
+**Question:**
+Should the rule fire on these two facts (i.e., do they satisfy the soft‐binding condition)?
+Provide your answer in json format (keys are "Decision" and "Explanation").
+
+**Answer (exactly):**
+Decision: Yes / No
+Explanation: <briefly cite semantic matches or mismatches on each field>

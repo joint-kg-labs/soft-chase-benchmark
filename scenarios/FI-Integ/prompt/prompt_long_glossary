@@ -1,0 +1,69 @@
+You are a specialized reasoning assistant that supports “soft bindings”: you judge whether a given rule should fire on a set of facts based on your contextual understanding of the reasoning settings.
+
+=== 0. Datalog +/- Ontology ===
+# 1-4: introduce a fresh internal ID for each external identifier
+# 1
+id(I, ISIN, N, D, C, T)   :- isin(ISIN, N, D, C, T).
+# 2
+id(I, CUSIP, N, D, C, T) :- cusip(CUSIP, N, D, C, T).
+# 3
+id(I, FIGI, N, D, C, T)   :- figi(FIGI, N, D, C, T).
+# 4
+id(I, SEDOL, N, D, C, T) :- sedol(SEDOL, N, D, C, T).
+
+# 5: unify internal IDs when two records share all semantic fields but differ on the external code
+I1 = I2 :-
+    id(I1, ID1, N, D, C, T),
+    id(I2, ID2, N, D, C, T),
+    ID1 <> ID2.
+
+# Q: link all external codes that map to the same unified internal ID
+link(ID1, ID2, I) :-
+    id(I, ID1, _,  _, _, _),
+    id(I, ID2, _,  _, _, _).
+
+=== 1. Domain & Predicates ===
+Domain Context: This scenario addresses the challenge of integrating financial instrument records identified under multiple international and regional coding systems: ISIN (global), CUSIP (U.S. and Canada), FIGI (Bloomberg's global ID), and SEDOL (UK and Ireland). Each source encodes a record for a financial instrument that includes: (1) an identifier code (e.g., 'US0378331005'), (2) a name (e.g., 'Apple Inc. Common Stock'), (3) a textual description, (4) a country of issuance (e.g., 'US', 'GB'), and (5) a financial instrument type (e.g., 'Equity', 'Bond', 'ETF', 'Option', 'Derivative').
+Soft reconciliation is required because the same instrument may appear across sources with slight variations (e.g., abbreviation vs. full name, typographic inconsistencies, truncated descriptions). Therefore, the fields name, description, country, and type are used for matching — but not all have equal reliability:
+- The 'name' field is the most informative for matching, but may vary due to corporate actions or abbreviations.
+- The 'description' can be inconsistent or verbose, often containing marketing or trading-related info.
+- The 'country' is usually consistent and should be considered a strong signal.
+- The 'type' can be ambiguous (e.g., 'Equity' vs. 'Stock'), so synonyms and domain-specific mappings should be taken into account.
+Tips for LLM-based soft matching:
+- Treat 'Equity', 'Stock', and 'Common Stock' as equivalent.
+- Pay attention to formatting variations like dashes, commas, or suffixes (e.g., 'PLC', 'Corp.', 'Inc.').
+- Ignore minor word order changes in descriptions.
+- For instrument names, casing and punctuation should not affect equivalence.
+Identifiers are considered semantically equivalent if all fields match approximately, with tolerances as above. The glossary aims to expose these equivalences to the LLM via rule and predicate verbalizations.
+
+We represent our data with these predicate definitions:
+– ISIN(arg0, arg1, arg2, arg3, arg4): “The financial instrument with ISIN code arg0 is named arg1, described as arg2, issued in country arg3, and belongs to type arg4.”
+– CUSIP(arg0, arg1, arg2, arg3, arg4): “CUSIP code arg0 refers to a financial instrument named arg1, with description arg2, issued in country arg3, and belongs to type arg4.”
+– FIGI(arg0, arg1, arg2, arg3, arg4): “FIGI code arg0 is used to identify the instrument called arg1, described as arg2, issued in country arg3, and belongs to type arg4.”
+– SEDOL(arg0, arg1, arg2, arg3, arg4): “The instrument with SEDOL code arg0 has the name arg1, the description arg2, is issued in country arg3, and belongs to type arg4.”
+– Id(arg0, arg1, arg2, arg3, arg4, arg5): “The internal ID arg0 is assigned to identifier arg1 and refers to a financial instrument named arg2, described as arg3, issued in a country arg4, and belongs to type arg5.”
+– Link(arg0, arg1, arg2): “There is a link between identifier arg0 and identifier arg1 because they both point to the same instrument with internal ID arg2.”
+
+=== 2. Rule to Evaluate ===
+If two Id records refer to different codes but share the same name, description, country, and type, then their internal IDs must be unified because they likely represent the same instrument.
+
+=== 3. In-Context Examples ===
+**Example 1 (Yes):**
+Facts:
+  – The identifier “US5949181045” refers to instrument ID iA, named “Microsoft Corp.”, described as “Common Stock of Microsoft”, issued in country “US”, of type “Equity”.
+  – The identifier “594918104” refers to instrument ID iB, named “Microsoft Corporation”, described as “Microsoft common stock”, issued in country “United States”, of type “Stock”.
+Decision: Yes
+Explanation: All four fields match under domain‐specific equivalences (Corp. ≃ Corporation, Equity ≃ Stock).
+
+=== 4. Your Task ===
+Now evaluate these facts:
+  – [[Query_Fact1]]
+  – [[Query_Fact2]]
+
+**Question:**
+Should the rule fire on these two facts (i.e., do they satisfy the soft‐binding condition)?
+Provide your answer in json format (keys are "Decision" and "Explanation").
+
+**Answer (exactly):**
+Decision: Yes / No
+Explanation: <briefly cite semantic matches or mismatches on each field>

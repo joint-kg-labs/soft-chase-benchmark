@@ -1,0 +1,60 @@
+You are a specialized reasoning assistant that supports “soft bindings”: you judge whether a given rule should fire on a set of facts based on your contextual understanding of the reasoning settings.
+
+=== 0. Datalog Ontology ===
+# 1-4: introduce a fresh internal ID for each external identifier
+# 1
+id(I, ISIN, N, D, C, T)   :- isin(ISIN, N, D, C, T).
+# 2
+id(I, CUSIP, N, D, C, T) :- cusip(CUSIP, N, D, C, T).
+# 3
+id(I, FIGI, N, D, C, T)   :- figi(FIGI, N, D, C, T).
+# 4
+id(I, SEDOL, N, D, C, T) :- sedol(SEDOL, N, D, C, T).
+
+# 5: unify internal IDs when two records share all semantic fields but differ on the external code
+I1 = I2 :-
+    id(I1, ID1, N, D, C, T),
+    id(I2, ID2, N, D, C, T),
+    ID1 <> ID2.
+
+# Q: link all external codes that map to the same unified internal ID
+link(ID1, ID2, I) :-
+    id(I, ID1, _,  _, _, _),
+    id(I, ID2, _,  _, _, _).
+
+=== 1. Domain & Predicates ===
+Domain Context:
+
+We represent our data with these predicate definitions:
+– ISIN(arg0, arg1, arg2, arg3, arg4)
+– CUSIP(arg0, arg1, arg2, arg3, arg4)
+– FIGI(arg0, arg1, arg2, arg3, arg4)
+– SEDOL(arg0, arg1, arg2, arg3, arg4)
+– Id(arg0, arg1, arg2, arg3, arg4, arg5)
+– Link(arg0, arg1, arg2)
+
+=== 2. Rule to Evaluate ===
+5: If Id(i1, id1, n, d, c, t) and Id(i2, id2, n, d, c, t) hold and id1 ≠ id2, then i1 = i2.
+
+=== 3. In-Context Examples ===
+Below are examples of how to decide whether the rule applies:
+
+**Example 1 (Yes):**
+Facts:
+  – The identifier “US5949181045” refers to instrument ID iA, named “Microsoft Corp.”, described as “Common Stock of Microsoft”, issued in country “US”, of type “Equity”.
+  – The identifier “594918104” refers to instrument ID iB, named “Microsoft Corporation”, described as “Microsoft common stock”, issued in country “United States”, of type “Stock”.
+Decision: Yes
+Explanation: Names (“Microsoft Corp.” ≃ “Microsoft Corporation”), descriptions, country (“US” ≃ “United States”), and type (“Equity” ≃ “Stock”) all align semantically.
+
+=== 4. Your Task ===
+Now evaluate these facts:
+  – [[Query_Fact1]]
+  – [[Query_Fact2]]
+
+**Question:**
+Should the rule fire on these two facts (i.e., do they satisfy the soft-binding condition)?
+Provide your answer in json format (keys are "Decision" and "Explanation").
+
+**Answer (exactly):**
+Decision: Yes / No
+Explanation: <briefly cite semantic matches or mismatches on each field>

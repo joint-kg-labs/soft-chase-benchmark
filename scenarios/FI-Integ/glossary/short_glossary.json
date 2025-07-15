@@ -1,0 +1,20 @@
+{
+  "glossary_type": "Short",
+  "domain_context": "This scenario involves reconciling financial instrument identifiers from different regional and international systems. Each identifier refers to the same financial instrument but is recorded differently depending on the standard (ISIN, CUSIP, FIGI, or SEDOL).",
+  "predicate_verbalization": {
+    "ISIN": "The ISIN code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.",
+    "CUSIP": "The CUSIP code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.",
+    "FIGI": "The FIGI code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.",
+    "SEDOL": "The SEDOL code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.",
+    "Id": "The identifier arg1 refers to instrument ID arg0, named arg2, described as arg3, issued in country arg4, of type arg5.",
+    "Link": "Link between identifiers arg0 and arg1 for instrument ID"
+  },
+  "rule_verbalization": {
+    "1": "If a financial instrument is identified via ISIN code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",
+    "2": "If a financial instrument is identified via CUSIP code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",
+    "3": "If a financial instrument is identified via FIGI code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",
+    "4": "If a financial instrument is identified via SEDOL code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",
+    "5": "If two instruments have the same name, description, country, and type but different identifiers, then merge their internal IDs to ensure they are treated as the same instrument.",
+    "Q": "If two identifiers refer to the same internal instrument ID, then a Link is created between those identifiers."
+  }
+}
