@@ -45,7 +45,7 @@ We represent our data with these predicate definitions:
 – Link(arg0, arg1, arg2): “There is a link between identifier arg0 and identifier arg1 because they both point to the same instrument with internal ID arg2.”
 
 === 2. Rule to Evaluate ===
-If two Id records refer to different codes but share the same name, description, country, and type, then their internal IDs must be unified because they likely represent the same instrument.
+5: If identifier arg1 refers to instrument arg0, named arg2, described as arg3, issued in country arg4, of type arg5 and identifier arg7 refers to instrument arg6, named arg2, described as arg3, issued in country arg4, of type arg5 and arg1 and arg7 are different external codes, then the two internal instrument IDs must be the same: arg0 = arg6.
 
 === 3. In-Context Examples ===
 **Example 1 (Yes):**

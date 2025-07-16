@@ -6,7 +6,7 @@
     "CUSIP": "CUSIP code arg0 refers to a financial instrument named arg1, with description arg2, issued in country arg3, and belongs to type arg4.",
     "FIGI": "FIGI code arg0 is used to identify the instrument called arg1, described as arg2, issued in country arg3, and belongs to type arg4.",
     "SEDOL": "The instrument with SEDOL code arg0 has the name arg1, the description arg2, is issued in country arg3, and belongs to type arg4.",
-    "Id": "The internal ID arg0 is assigned to identifier arg1 and refers to a financial instrument named arg2, described as arg3, issued in a country arg4, and belongs to type arg5.",
+    "Id": "If identifier arg1 refers to instrument arg0, named arg2, described as arg3, issued in country arg4, of type arg5 and identifier arg7 refers to instrument arg6, named arg2, described as arg3, issued in country arg4, of type arg5 and arg1 and arg7 are different external codes, then the two internal instrument IDs must be the same: arg0 = arg6.",
     "Link": "There is a link between identifier arg0 and identifier arg1 because they both point to the same instrument with internal ID."
   },
   "rule_verbalization": {

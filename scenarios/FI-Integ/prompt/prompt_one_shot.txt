@@ -34,7 +34,7 @@ We represent our data with these predicate definitions:
 – Link(arg0, arg1, arg2): “Link between identifiers arg0 and arg1 for instrument ID arg2.”
 
 === 2. Rule to Evaluate ===
-5: If two instruments have the same name, description, country, and type but different identifiers, then merge their internal IDs to ensure they are treated as the same instrument.
+5: If identifier arg1 refers to instrument arg0, named arg2, described as arg3, issued in country arg4, of type arg5 and identifier arg7 refers to instrument arg6, named arg2, described as arg3, issued in country arg4, of type arg5 and arg1 and arg7 are different external codes, then the two internal instrument IDs must be the same: arg0 = arg6.
 
 === 3. In-Context Examples ===
 **Example 1 (Yes):**
