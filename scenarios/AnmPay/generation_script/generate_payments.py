@@ -81,7 +81,7 @@ def name_variations_for(name: str) -> list:
         variations.add(f"{first[0]}{last[0]}")
 
         # reversed
-        variations.add(f"{last}, {first}")
+        variations.add(f"{last}; {first}")
         variations.add(f"{last} {first}")
 
         # concatenated
@@ -258,7 +258,7 @@ def generate_payments(
             'originator_name': random.choice(name_variations[origin_base]),
             'beneficiary_name': random.choice(name_variations[benef_base]),
             'payment_reason': random.choice(reasons),
-            'amount_usd': round(random.uniform(5.0, 50000.0), 2),
+            'amount_usd': round(random.uniform(5.0, 1000.0), 2),
             'payment_date': start_date + timedelta(days=random.randint(0, 365))
         })
     return pd.DataFrame(payments)
@@ -266,6 +266,18 @@ def generate_payments(
 
 def save_dataframe(df: pd.DataFrame, path: str):
     """Save DataFrame to CSV with quoted fields."""
+    df.to_csv(
+        path,
+        index=False,
+        encoding='utf-8',
+        quoting=csv.QUOTE_ALL,
+        quotechar='"'
+    )
+
+def save_reason_variations(variation_map: dict, path: str):
+    """Save mapping variation -> base_reason to CSV (one row per variation)."""
+    rows = [{"variation": v, "base_reason": base} for v, base in variation_map.items()]
+    df = pd.DataFrame(rows)
     df.to_csv(
         path,
         index=False,
@@ -291,11 +303,14 @@ def main():
     base_names   = load_list_from_csv(args.names_csv,   'name')
     base_reasons = load_list_from_csv(args.reasons_csv, 'reason')
 
-    # Expand payment reasons with variations
+    # Expand payment reasons with variations and build variation->base mapping
+    variation_map = {}
     all_reasons = []
     for r in base_reasons:
-        all_reasons.append(r)
-        all_reasons.extend(payment_reason_variations(r))
+        variations = [r] + payment_reason_variations(r)
+        for v in variations:
+            variation_map[v] = r
+        all_reasons.extend(variations)
     all_reasons = list(dict.fromkeys(all_reasons))
 
     # Build accounts
@@ -319,11 +334,16 @@ def main():
     # Save outputs
     accounts_path = f"{args.out_dir}/accounts.csv"
     payments_path = f"{args.out_dir}/payments.csv"
+    reason_map_path = f"{args.out_dir}/reason_variations.csv"
+
     save_dataframe(accounts_df, accounts_path)
     save_dataframe(payments_df, payments_path)
+    save_reason_variations(variation_map, reason_map_path)
 
     print(f"Saved {len(accounts_df)} accounts to {accounts_path}")
     print(f"Saved {len(payments_df)} payments to {payments_path}")
+    print(f"Saved {len(variation_map)} reason variations to {reason_map_path}")
+
 
 
 if __name__ == '__main__':

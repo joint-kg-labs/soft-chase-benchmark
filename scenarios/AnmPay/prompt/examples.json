@@ -1,0 +1,23 @@
+{
+  "Example1": {
+    "Ex1_Fact1": "The payment record 1 has originator BIC 79IV2F1FK, beneficiary BIC MYXBD07Q2, originator name Chiara Esposito, beneficiary name B. Tran, reason invoice #4778 payment, amount 242.16, and timestamp 2025-05-27 11:32:13.097770.",
+    "Ex1_Fact2": "The account with IBAN PT29723574315277766944 belongs to holder Chiara Esposito and has BIC 79IV2F1FK.",
+    "Ex1_Fact3": "The account with IBAN GR48822575952937041810 belongs to holder Bao Tran and has BIC MYXBD07Q2.",
+    "Ex1_Decision": "Yes",
+    "Ex1_Explanation": "The originator and beneficiary names match the accounts’ holders, and the BICs align correctly, so the payment can be linked to the IBANs."
+  },
+  "Example2": {
+    "Ex2_Fact1": "The payment record 2 has originator BIC IFU43U41V, beneficiary BIC TTDWOSPE1, originator name Xiaoyu Chen, beneficiary name nora el-sayed, reason Rent-Payment-–-Apt-24, amount 797.24, and timestamp 2025-02-05 11:32:13.097770.",
+    "Ex2_Fact2": "The account with IBAN BE50603754996010115571 belongs to holder Xiaoyu Chen and has BIC IFU43U41V.",
+    "Ex2_Fact3": "The account with IBAN FR50530064235392451184 belongs to holder Nora El-Sayed and has BIC TTDWOSPE1.",
+    "Ex2_Decision": "Yes",
+    "Ex2_Explanation": "The originator and beneficiary names and BICs correspond correctly to the accounts, so the rule applies."
+  },
+  "Example3": {
+    "Ex3_Fact1": "The payment record 3 has originator BIC 2BPIMEVGX, beneficiary BIC 46QHEQKMQ, originator name quinn o’donnell, beneficiary name yvette mbatha, reason api-INTEGRATINO-SERVICES-–-iNVIOCE-#3322, amount 609.89, and timestamp 2025-01-28 11:32:13.097770.",
+    "Ex3_Fact2": "The account with IBAN LU74688843065843458890 belongs to holder Quinn O’Donnell and has BIC 2BPIMEVGX.",
+    "Ex3_Fact3": "The account with IBAN LU19723262557725612444 belongs to holder Mike Mbatha and has BIC 46QHEQKMQ.",
+    "Ex3_Decision": "No",
+    "Ex3_Explanation": "The originator name on the account (Quinn O’Donnell) matches after case-insensitive comparison, but the beneficiary name (Mike Mbatha) does not match the payment’s beneficiary (yvette mbatha), so the payment cannot be linked correctly."
+  }
+}

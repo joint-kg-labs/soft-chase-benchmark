@@ -1,0 +1,38 @@
+@bind("pmt", "csv useHeaders=true", "/../dataset", "payments.csv").
+@bind("acc", "csv useHeaders=true", "/../dataset", "accounts.csv").
+
+@input("pmt").
+@input("acc").
+
+# 1: link payments to originator and beneficiary IBANs
+p(ID, IBNO, IBNB, PR, A, T) :-
+    pmt(ID, BICO, BICB, NO, NB, PR, A, T),
+    acc(IBNO, NO, BICO),
+    acc(IBNB, NB, BICB).
+
+# 2: introduce an (initially unknown) category for each payment
+cat(ID, PR, A, T, C) :-
+    p(ID, IBNO, IBNB, PR, A, T).
+
+# 3–5: assign one of b2b, c2b, c2c based on the free-text reason
+C = "b2b" :-
+    cat(ID, "Business to Business", A, T, C).
+C = "c2b" :-
+    cat(ID, "Customer to Business", A, T, C).
+C = "c2c" :-
+    cat(ID, "Customer to Customer", A, T, C).
+
+# 6: for each payment, count how many times each category occurs for the same originator
+frequency(IBNO, C, Cnt) :- cat(ID, _, _, _, C), p(ID, IBNO, _, _, _, _), Cnt = count(C).
+
+# 7: for each originator, compute the maximum frequency observed among its categories
+maxC(IBNO, M) :- frequency(IBNO, C, Cnt), M = mmax(Cnt).
+
+# 8: identify the most frequent category for each originator
+maxCategory(IBNO, C) :- maxC(IBNO, M), frequency(IBNO, C, M).
+
+# 9: flag as anomaly any payments whose category does not match the most frequent category of the originator
+anomaly(ID) :- p(ID, IBNO, _, _, _, _), cat(ID, _, _, _, C1), maxCategory(IBNO, C2), C1<>C2.
+
+@output("anomaly").
+@executionMode("distributed").

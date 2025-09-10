@@ -1,0 +1,25 @@
+{
+  "glossary_type": "Short",
+  "domain_context": "This scenario involves analyzing payments linked to bank accounts in order to assign categories (b2b, c2b, c2c) based on transaction reasons and to detect anomalies when a payment’s category does not match the most common behavior of its originator.",
+  "predicate_verbalization": {
+    "pmt": "The payment record arg0 has originator BIC arg1, beneficiary BIC arg2, originator name arg3, beneficiary name arg4, reason arg5, amount arg6, and timestamp arg7.",
+    "acc": "The account with IBAN arg0 belongs to holder arg1 and has BIC arg2.",
+    "p": "Payment arg0 links originator IBAN arg1 and beneficiary IBAN arg2 with reason arg3, amount arg4, and timestamp arg5.",
+    "cat": "Payment arg0 with reason arg1, amount arg2, and timestamp arg3 is assigned category arg4.",
+    "frequency": "Originator IBAN arg0 has category arg1 occurring arg2 times.",
+    "maxC": "Originator IBAN arg0 has maximum category frequency arg1.",
+    "maxCategory": "Originator IBAN arg0 has most frequent category arg1.",
+    "anomaly": "Payment arg0 is flagged as anomalous."
+  },
+  "rule_verbalization": {
+    "1": "If the payment record arg0 has originator BIC arg1, beneficiary BIC arg2, originator name arg3, beneficiary name arg4, reason arg5, amount arg6, and timestamp arg7, and the account with IBAN arg8 belongs to holder arg3 and has BIC arg1, and the account with IBAN arg9 belongs to holder arg4 and has BIC arg2, then payment arg0 links originator IBAN arg8 and beneficiary IBAN arg9 with reason arg5, amount arg6, and timestamp arg7.",
+    "2": "If payment arg0 links originator IBAN arg1 and beneficiary IBAN arg2 with reason arg3, amount arg4, and timestamp arg5, then payment arg0 with reason arg3, amount arg4, and timestamp arg5 is assigned category arg6.",
+    "3": "If payment arg0 with reason 'Business to Business', amount arg2, and timestamp arg3 is assigned category arg4, then arg4 = 'b2b'.",
+    "4": "If payment arg0 with reason 'Customer to Business', amount arg2, and timestamp arg3 is assigned category arg4, then arg4 = 'c2b'.",
+    "5": "If payment arg0 with reason 'Customer to Customer', amount arg2, and timestamp arg3 is assigned category arg4, then arg4 = 'c2c'.",
+    "6": "If payment arg0 with reason arg1, amount arg2, and timestamp arg3 is assigned category arg4, and payment arg0 links originator IBAN arg5 and beneficiary IBAN arg6 with reason arg7, amount arg8, and timestamp arg9, then originator IBAN arg5 has category arg4 occurring count(arg4) times.",
+    "7": "If originator IBAN arg0 has category arg1 occurring arg2 times, then originator IBAN arg0 has maximum category frequency max(arg2).",
+    "8": "If originator IBAN arg0 has maximum category frequency arg1, and originator IBAN arg0 has category arg2 occurring arg1 times, then originator IBAN arg0 has most frequent category arg2.",
+    "9": "If payment arg0 links originator IBAN arg1 and beneficiary IBAN arg2 with reason arg3, amount arg4, and timestamp arg5, and payment arg0 with reason arg6, amount arg7, and timestamp arg8 is assigned category arg9, and originator IBAN arg1 has most frequent category arg10, and arg9 ≠ arg10, then payment arg0 is flagged as anomalous."
+  }
+}

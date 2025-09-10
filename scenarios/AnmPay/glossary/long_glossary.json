@@ -1,0 +1,25 @@
+{
+  "glossary_type": "Long",
+  "domain_context": "This scenario involves analyzing financial payment transactions to detect anomalies based on payment categories. Each payment record includes: (1) a unique payment ID, (2) originator BIC, (3) beneficiary BIC, (4) originator name, (5) beneficiary name, (6) free-text reason for payment, (7) amount, and (8) timestamp. Account data provide the mapping between IBANs, account holders, and their BICs.\n\nThe data may contain typos, abbreviations, inconsistent formatting, or minor variations in names and reasons. Soft categorization is therefore necessary: each payment is assigned a category (b2b, c2b, c2c) based on the free-text reason, taking into account these variations. Anomaly detection flags payments whose category deviates from the most frequent category observed for the originator, helping identify irregular or unexpected transactions.",
+  "predicate_verbalization": {
+    "pmt": "Payment record arg0 has originator BIC arg1, beneficiary BIC arg2, originator name arg3, beneficiary name arg4, reason arg5, amount arg6, and timestamp arg7.",
+    "acc": "Account arg0 belongs to holder arg1 and has BIC arg2.",
+    "p": "Payment arg0 links originator IBAN arg1 and beneficiary IBAN arg2 with reason arg3, amount arg4, and timestamp arg5.",
+    "cat": "Payment arg0 with reason arg1, amount arg2, and timestamp arg3 is assigned to category arg4.",
+    "frequency": "Originator IBAN arg0 has category arg1 occurring arg2 times across its payments.",
+    "maxC": "Originator IBAN arg0 has maximum category frequency arg1.",
+    "maxCategory": "Originator IBAN arg0 has most frequent category arg1.",
+    "anomaly": "Payment arg0 is flagged as anomalous because its category deviates from the most frequent category of the originator."
+  },
+  "rule_verbalization": {
+    "1": "If a payment record arg0 has originator BIC arg1, beneficiary BIC arg2, originator name arg3, beneficiary name arg4, reason arg5, amount arg6, and timestamp arg7, and account arg8 belongs to holder arg3 and has BIC arg1, and account arg9 belongs to holder arg4 and has BIC arg2, then payment arg0 links originator IBAN arg8 and beneficiary IBAN arg9 with reason arg5, amount arg6, and timestamp arg7.",
+    "2": "If payment arg0 links originator IBAN arg1 and beneficiary IBAN arg2 with reason arg3, amount arg4, and timestamp arg5, then payment arg0 with reason arg3, amount arg4, and timestamp arg5 is assigned a category arg6.",
+    "3": "If payment arg0 with reason 'Business to Business', amount arg2, and timestamp arg3 is assigned category arg4, then arg4 = 'b2b'.",
+    "4": "If payment arg0 with reason 'Customer to Business', amount arg2, and timestamp arg3 is assigned category arg4, then arg4 = 'c2b'.",
+    "5": "If payment arg0 with reason 'Customer to Customer', amount arg2, and timestamp arg3 is assigned category arg4, then arg4 = 'c2c'.",
+    "6": "If payment arg0 with reason arg1, amount arg2, and timestamp arg3 is assigned category arg4, and payment arg0 links originator IBAN arg5 and beneficiary IBAN arg6 with reason arg7, amount arg8, and timestamp arg9, then originator IBAN arg5 has category arg4 occurring count(arg4) times across its payments.",
+    "7": "If originator IBAN arg0 has category arg1 occurring arg2 times, then originator IBAN arg0 has maximum category frequency max(arg2).",
+    "8": "If originator IBAN arg0 has maximum category frequency arg1, and originator IBAN arg0 has category arg2 occurring arg1 times, then originator IBAN arg0 has most frequent category arg2.",
+    "9": "If payment arg0 links originator IBAN arg1 and beneficiary IBAN arg2 with reason arg3, amount arg4, and timestamp arg5, and payment arg0 with reason arg6, amount arg7, and timestamp arg8 is assigned category arg9, and originator IBAN arg1 has most frequent category arg10, and arg9 ≠ arg10, then payment arg0 is flagged as anomalous."
+  }
+}

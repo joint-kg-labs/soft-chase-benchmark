@@ -2,12 +2,12 @@
   "glossary_type": "Short",
   "domain_context": "This scenario involves reconciling financial instrument identifiers from different regional and international systems. Each identifier refers to the same financial instrument but is recorded differently depending on the standard (ISIN, CUSIP, FIGI, or SEDOL).",
   "predicate_verbalization": {
-    "ISIN": "The ISIN code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.",
-    "CUSIP": "The CUSIP code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.",
-    "FIGI": "The FIGI code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.",
-    "SEDOL": "The SEDOL code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.",
-    "Id": "If identifier arg1 refers to instrument arg0, named arg2, described as arg3, issued in country arg4, of type arg5 and identifier arg7 refers to instrument arg6, named arg2, described as arg3, issued in country arg4, of type arg5 and arg1 and arg7 are different external codes, then the two internal instrument IDs must be the same: arg0 = arg6.",
-    "Link": "Link between identifiers arg0 and arg1 for instrument ID"
+    "isin": "The ISIN code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.",
+    "cusip": "The CUSIP code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.",
+    "figi": "The FIGI code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.",
+    "sedol": "The SEDOL code arg0 identifies a financial instrument named arg1, described as arg2, issued in country arg3, of type arg4.",
+    "id": "Identifier arg1 refers to instrument arg0, named arg2, described as arg3, issued in country arg4, of type arg5.",
+    "link": "Link between identifiers arg0 and arg1 for instrument ID"
   },
   "rule_verbalization": {
     "1": "If a financial instrument is identified via ISIN code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",

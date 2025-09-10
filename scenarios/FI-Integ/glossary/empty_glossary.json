@@ -2,12 +2,12 @@
   "glossary_type": "Empty",
   "domain_context": "",
   "predicate_verbalization": {
-    "ISIN": "ISIN(arg0, arg1, arg2, arg3, arg4)",
-    "CUSIP": "CUSIP(arg0, arg1, arg2, arg3, arg4)",
-    "FIGI": "FIGI(arg0, arg1, arg2, arg3, arg4)",
-    "SEDOL": "SEDOL(arg0, arg1, arg2, arg3, arg4)",
-    "Id": "Id(arg0, arg1, arg2, arg3, arg4, arg5)",
-    "Link": "Link(arg0, arg1)"
+    "isin": "ISIN(arg0, arg1, arg2, arg3, arg4)",
+    "cusip": "CUSIP(arg0, arg1, arg2, arg3, arg4)",
+    "figi": "FIGI(arg0, arg1, arg2, arg3, arg4)",
+    "sedol": "SEDOL(arg0, arg1, arg2, arg3, arg4)",
+    "id": "Id(arg0, arg1, arg2, arg3, arg4, arg5)",
+    "link": "Link(arg0, arg1)"
   },
   "rule_verbalization": {
     "1": "If ISIN(arg0, arg1, arg2, arg3, arg4) holds, then Id(argX, arg0, arg1, arg2, arg3, arg4) holds.",

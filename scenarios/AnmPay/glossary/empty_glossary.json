@@ -1,0 +1,25 @@
+{
+  "glossary_type": "empty",
+  "domain_context": "",
+  "predicate_verbalization": {
+    "pmt": "pmt(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)",
+    "acc": "acc(arg0, arg1, arg2)",
+    "p": "p(arg0, arg1, arg2, arg3, arg4, arg5)",
+    "cat": "cat(arg0, arg1, arg2, arg3, arg4)",
+    "frequency": "frequency(arg0, arg1, arg2)",
+    "maxC": "maxC(arg0, arg1)",
+    "maxCategory": "maxCategory(arg0, arg1)",
+    "anomaly": "anomaly(arg0)"
+  },
+  "rule_verbalization": {
+    "1": "If pmt(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7) and acc(arg9, arg3, arg1) and acc(arg10, arg4, arg2) hold, then p(arg0, arg9, arg10, arg5, arg6, arg7) holds.",
+    "2": "If p(arg0, arg1, arg2, arg3, arg4, arg5) holds, then cat(arg0, arg3, arg4, arg5, arg6) holds.",
+    "3": "If cat(arg0, 'Business to Business', arg2, arg3, arg4) holds, then arg4 = 'b2b'.",
+    "4": "If cat(arg0, 'Customer to Business', arg2, arg3, arg4) holds, then arg4 = 'c2b'.",
+    "5": "If cat(arg0, 'Customer to Customer', arg2, arg3, arg4) holds, then arg4 = 'c2c'.",
+    "6": "If cat(arg0, arg1, arg2, arg3, arg4) and P(arg0, arg5, arg6, arg7, arg8, arg9) hold, then frequency(arg5, arg4, count(arg4)) holds.",
+    "7": "If frequency(arg0, arg1, arg2) holds, then maxC(arg0, max(arg2)) holds.",
+    "8": "If maxC(arg0, arg1) and frequency(arg0, arg2, arg1) hold, then maxCategory(arg0, arg2) holds.",
+    "9": "If p(arg0, arg1, arg2, arg3, arg4, arg5) and cat(arg0, arg6, arg7, arg8, arg9) and maxCategory(arg1, arg10) hold and arg9 ≠ arg10, then anomaly(arg0) holds."
+  }
+}
