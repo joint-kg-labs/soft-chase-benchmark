@@ -1,0 +1,59 @@
+# ====================
+# Bindings
+# ====================
+@bind("case", "csv useHeaders=true", "/../dataset", "cases.csv").
+@bind("casedet", "csv useHeaders=true", "/../dataset", "case_details.csv").
+@bind("newcase", "csv useHeaders=true", "/../dataset", "new_cases.csv").
+
+@input("case").
+@input("casedet").
+@input("newcase").
+
+# ====================
+# 1: Link case with its detailed transcript
+t(ID, TTL, D, TRS) :-
+    case(ID, TTL, D, C, J, CAT, DID),
+    casedet(D, TRS, DEC, M, TOC).
+
+# ====================
+# 2: Create citation relation from transcript mentions
+cites(ID2, ID1) :-
+    t(ID1, IsCited, D1, TRS1),
+    t(ID2, TTL2, IsCited, TRS2).
+
+# ====================
+# 3: Every citation implies a "should cite"
+shouldCite(ID1, ID2) :-
+    cites(ID1, ID2).
+
+# ====================
+# 4: Transitive closure of "should cite"
+shouldCite(ID1, ID3) :-
+    shouldCite(ID1, ID2),
+    cites(ID2, ID3).
+
+# ====================
+# 5: Match new case with existing cases
+mayCite(IDN, IDC) :-
+    newcase(IDN, AID, TOC, J, CAT),
+    casedet(D, TRS, DEC, M, TOC),
+    case(IDC, TTL, D, C, J, CAT, DID).
+
+# ====================
+# 6: Propagate potential citations along "should cite"
+mayCite(IDN, ID2) :-
+    mayCite(IDN, ID1),
+    shouldCite(ID1, ID2).
+
+# ====================
+# Q: Relevant cases for new case (conviction condition)
+relevantCase(C, ID, TRS) :-
+    mayCite(C, ID),
+    casedet(ID, TRS, DEC, M, TOC),
+    DEC = "convicted".
+
+# ====================
+# Output
+# ====================
+@output("relevantCase").
+@executionMode("distributed").
