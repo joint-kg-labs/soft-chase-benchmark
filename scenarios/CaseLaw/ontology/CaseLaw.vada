@@ -1,9 +1,14 @@
 # ====================
 # Bindings
 # ====================
+
 @bind("case", "csv useHeaders=true", "/../dataset", "cases.csv").
 @bind("casedet", "csv useHeaders=true", "/../dataset", "case_details.csv").
 @bind("newcase", "csv useHeaders=true", "/../dataset", "new_cases.csv").
+
+# case: id,name,decision_date,jurisdiction_name,parties,offense,punishment,decision
+# casedet: head_matter,corrections,opinions
+# newcase: id, name, offense
 
 @input("case").
 @input("casedet").
@@ -11,15 +16,15 @@
 
 # ====================
 # 1: Link case with its detailed transcript
-t(ID, TTL, D, TRS) :-
-    case(ID, TTL, D, C, J, CAT, DID),
-    casedet(D, TRS, DEC, M, TOC).
+t(ID, N, HM, O) :-
+    case(ID, N, _, _, _, _, _, _),
+    casedet(D, HM, _, O), HM=N.
 
 # ====================
-# 2: Create citation relation from transcript mentions
+# 2: Create citation relation from the mention in the head matter
 cites(ID2, ID1) :-
-    t(ID1, IsCited, D1, TRS1),
-    t(ID2, TTL2, IsCited, TRS2).
+    t(ID1, IsCited, _, _),
+    t(ID2, _, IsCited, _).
 
 # ====================
 # 3: Every citation implies a "should cite"
@@ -33,27 +38,28 @@ shouldCite(ID1, ID3) :-
     cites(ID2, ID3).
 
 # ====================
-# 5: Match new case with existing cases
-mayCite(IDN, IDC) :-
-    newcase(IDN, AID, TOC, J, CAT),
-    casedet(D, TRS, DEC, M, TOC),
-    case(IDC, TTL, D, C, J, CAT, DID).
+# 5: Match new case with existing cases with similar offense
+mayCite(IDN, Name, IDC) :-
+    newcase(IDN, Name, Offense1),
+    case(IDC, _, _, _, _, Offense2, _, _),
+    Offense1=Offense2.
 
 # ====================
 # 6: Propagate potential citations along "should cite"
-mayCite(IDN, ID2) :-
-    mayCite(IDN, ID1),
+mayCite(IDN, Name, ID2) :-
+    mayCite(IDN, Name, ID1),
     shouldCite(ID1, ID2).
 
 # ====================
 # Q: Relevant cases for new case (conviction condition)
-relevantCase(C, ID, TRS) :-
-    mayCite(C, ID),
-    casedet(ID, TRS, DEC, M, TOC),
-    DEC = "convicted".
+relevantCase(IDN, Name1, IDC, Name2) :-
+    mayCite(IDN, Name1, IDC),
+    case(IDC, Name2, _, _, _, _, _, Decision),
+    Decision = "convicted".
 
 # ====================
 # Output
 # ====================
+@output("cites")
 @output("relevantCase").
 @executionMode("distributed").

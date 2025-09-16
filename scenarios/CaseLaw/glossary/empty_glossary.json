@@ -1,0 +1,23 @@
+{
+  "glossary_type": "Empty",
+  "domain_context": "",
+  "predicate_verbalization": {
+    "case": "case(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)",
+    "casedet": "casedet(arg0, arg1, arg2, arg3)",
+    "newcase": "newcase(arg0, arg1, arg2)",
+    "t": "t(arg0, arg1, arg2, arg3)",
+    "cites": "cites(arg0, arg1)",
+    "shouldCite": "shouldCite(arg0, arg1)",
+    "mayCite": "mayCite(arg0, arg1, arg2)",
+    "relevantCase": "relevantCase(arg0, arg1, arg2, arg3)"
+  },
+  "rule_verbalization": {
+    "1": "If case(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7) and casedet(arg8, arg9, arg10, arg11) hold and arg9 = arg1, then t(arg0, arg1, arg9, arg11) holds.",
+    "2": "If t(arg0, arg1, arg2, arg3) and t(arg4, arg5, arg1, arg6) hold, then cites(arg4, arg0) holds.",
+    "3": "If cites(arg0, arg1) holds, then shouldCite(arg0, arg1) holds.",
+    "4": "If shouldCite(arg0, arg1) and cites(arg1, arg2) hold, then shouldCite(arg0, arg2) holds.",
+    "5": "If newcase(arg0, arg1, arg2) and case(arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) hold and arg2 = arg8, then mayCite(arg0, arg1, arg3) holds.",
+    "6": "If mayCite(arg0, arg1, arg2) and shouldCite(arg2, arg3) hold, then mayCite(arg0, arg1, arg3) holds.",
+    "Q": "If mayCite(arg0, arg1, arg2) and case(arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) hold and arg9 = \"convicted\", then relevantCase(arg0, arg1, arg2, arg3) holds."
+  }
+}

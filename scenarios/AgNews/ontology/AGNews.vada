@@ -1,0 +1,40 @@
+# ====================
+# Bindings
+# ====================
+
+@bind("news", "csv useHeaders=true", "/../dataset", "agnews.csv").
+
+# news: id,title,news_description
+
+@input("news").
+
+# ====================
+# 1: Extract Business news
+busNews(ID, Title, Txt) :-
+    news(ID, Title, Txt),
+    Txt ≅ "Business".
+
+# ====================
+# 2: Extract Stock-related news from Business
+stckNews(ID, Title, Txt) :-
+    busNews(ID, Title, Txt),
+    Txt ≅ "Stocks".
+
+# ====================
+# 3: Positive statements → Pump
+pump(ID, Title, Txt) :-
+    stckNews(ID, Title, Txt),
+    Txt ≅ "Pos. stat.".
+
+# ====================
+# 4: Negative statements → Dump
+dump(ID, Title, Txt) :-
+    stckNews(ID, Title, Txt),
+    Txt ≅ "Neg. stat.".
+
+# ====================
+# Output
+# ====================
+@output("pump").
+@output("dump").
+@executionMode("distributed").

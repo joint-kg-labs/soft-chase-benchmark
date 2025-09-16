@@ -1,0 +1,23 @@
+{
+  "glossary_type": "Long",
+  "domain_context": "This scenario involves reasoning over legal case data to identify citation relationships and recommend relevant precedents for new cases. The dataset is composed of three main sources: (1) case records, which provide metadata about court cases including identifier, name, decision date, jurisdiction, parties, offense, punishment, and decision; (2) case details, which contain head matter, corrections, and opinions describing the content of the case; and (3) new cases, which include a case identifier, case name, and offense. \n\nThe reasoning tasks supported by the ontology include: (i) linking each case with its detailed transcript, (ii) extracting citations between cases from mentions in the head matter, (iii) propagating citation obligations through a 'should cite' transitive closure, (iv) matching new cases with prior cases based on shared offense categories, and (v) identifying relevant precedents that the prosecutor could cite if they involve convictions. The output of the reasoning is a set of citation relations between cases and a set of relevant precedents for new cases.",
+  "predicate_verbalization": {
+    "case": "Case arg0 has name arg1, decision date arg2, jurisdiction arg3, parties arg4, offense arg5, punishment arg6, and decision arg7.",
+    "casedet": "Case details arg0 include head matter arg1, corrections arg2, and opinions arg3.",
+    "newcase": "New case arg0 has name arg1 and offense arg2.",
+    "t": "Case arg0 with name arg1 is linked to head matter arg2 and opinions arg3.",
+    "cites": "Case arg0 cites case arg1.",
+    "shouldCite": "Case arg0 should cite case arg1.",
+    "mayCite": "New case arg0 with name arg1 may cite existing case arg2.",
+    "relevantCase": "New case arg0 with name arg1 may cite relevant convicted case arg2 with name arg3."
+  },
+  "rule_verbalization": {
+    "1": "If case arg0 has name arg1 and case details arg2 include head matter arg3 and opinions arg4, and arg3 equals arg1, then case arg0 with name arg1 is linked to head matter arg3 and opinions arg4.",
+    "2": "If case arg0 with name arg1 is linked to head matter arg2 and case arg3 with name arg4 is linked to head matter arg1, then case arg3 cites case arg0.",
+    "3": "If case arg0 cites case arg1, then case arg0 should cite case arg1.",
+    "4": "If case arg0 should cite case arg1 and case arg1 cites case arg2, then case arg0 should cite case arg2.",
+    "5": "If new case arg0 with name arg1 has offense arg2, and case arg3 has offense arg4, and arg2 equals arg4, then new case arg0 with name arg1 may cite case arg3.",
+    "6": "If new case arg0 with name arg1 may cite case arg2, and case arg2 should cite case arg3, then new case arg0 with name arg1 may cite case arg3.",
+    "Q": "If new case arg0 with name arg1 may cite case arg2, and case arg2 has name arg3 and decision 'convicted', then new case arg0 with name arg1 may cite relevant convicted case arg2 with name arg3."
+  }
+}
