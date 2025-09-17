@@ -19,5 +19,6 @@
     "Ex3_Fact3": "The account with IBAN LU19723262557725612444 belongs to holder Mike Mbatha and has BIC 46QHEQKMQ.",
     "Ex3_Decision": "No",
     "Ex3_Explanation": "The originator name on the account (Quinn O’Donnell) matches after case-insensitive comparison, but the beneficiary name (Mike Mbatha) does not match the payment’s beneficiary (yvette mbatha), so the payment cannot be linked correctly."
-  }
+  },
+  "rule": "p(ID, IBNO, IBNB, PR, A, T) :- pmt(ID, BICO, BICB, NO, NB, PR, A, T), acc(IBNO, NO, BICO), acc(IBNB, NB, BICB)."
 }

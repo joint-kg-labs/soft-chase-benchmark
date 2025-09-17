@@ -24,17 +24,20 @@ stckNews(ID, Title, Txt) :-
 # 3: Positive statements → Pump
 pump(ID, Title, Txt) :-
     stckNews(ID, Title, Txt),
-    Txt ≅ "Pos. stat.".
+    Txt ≅ "Positive Sentiment".
 
 # ====================
 # 4: Negative statements → Dump
 dump(ID, Title, Txt) :-
     stckNews(ID, Title, Txt),
-    Txt ≅ "Neg. stat.".
+    Txt ≅ "Negative Sentiment".
 
 # ====================
 # Output
 # ====================
 @output("pump").
+@bind("pump", "csv", "/../dataset", "pump.csv").
 @output("dump").
+@bind("dump", "csv", "/../dataset", "dump.csv").
+
 @executionMode("distributed").

@@ -16,5 +16,6 @@
     "Ex3_Fact2": "The identifier “02079K1079” refers to instrument ID iF, named “Google LLC”, described as “Class A Common Stock”, issued in country “US”, of type “Equity”.",
     "Ex3_Decision": "No",
     "Ex3_Explanation": "The names (“Alphabet Inc.” vs. “Google LLC”) and share classes (“Class C” vs. “Class A”) differ, indicating separate instruments."
-  }
+  },
+  "rule": "I1 = I2 :- id(I1, ID1, N, D, C, T), id(I2, ID2, N, D, C, T), ID1 <> ID2."
 }

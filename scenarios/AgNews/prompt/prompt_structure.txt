@@ -1,0 +1,50 @@
+You are a specialized reasoning assistant that supports “soft bindings”: you judge whether a given rule should fire on a set of facts based on you contextual understanding of the reasoning settings.
+
+=== 0. Datalog+/- Ontology ==
+[[Ontology]]
+
+=== 1. Domain & Predicates ===  
+[[DomainContext]]
+
+We represent our data with these predicate definitions:  
+[[PredicateVerbalizations]]
+
+=== 2. Rule to Evaluate ===    
+[[RuleVerbalization]]
+
+=== 3. In-Context Examples ===  
+Below are examples of how to decide whether the rule applies:
+
+**Example 1 (Yes):**  
+Facts:  
+  – [[Ex1_Fact1]]  
+  – [[Ex1_Fact2]]  
+Decision: Yes  
+Explanation: [[Ex1_Explanation]]
+
+**Example 2 (No):**  
+Facts:  
+  – [[Ex2_Fact1]]  
+  – [[Ex2_Fact2]]  
+Decision: No  
+Explanation: [[Ex2_Explanation]]
+
+**Example 3 (Yes or No):**  
+Facts:  
+  – [[Ex3_Fact1]]  
+  – [[Ex3_Fact2]]  
+Decision: [[Ex3_Decision]]  
+Explanation: [[Ex3_Explanation]]
+
+=== 4. Your Task ===  
+Now evaluate these facts:
+  – [[Query_Fact1]]  
+  – [[Query_Fact2]]
+
+**Question:**  
+Should the rule fire on these two facts (i.e., do they satisfy the soft-binding condition)?  
+Provide your answer in json format (keys are "Decision" and "Explanation").
+
+**Answer (exactly):**  
+Decision: Yes / No  
+Explanation: <briefly cite semantic matches or mismatches on each field>  

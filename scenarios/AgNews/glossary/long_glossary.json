@@ -1,0 +1,17 @@
+{
+  "glossary_type": "Long",
+  "domain_context": "This scenario involves analyzing a news dataset (AG News) to detect stock-related news and classify their sentiment. Each news article includes: (1) a unique identifier (id), (2) a title summarizing the news, and (3) the full text description of the article. The analysis filters the dataset progressively: (i) business-related news are first identified, (ii) among these, stock-related articles are extracted, and (iii) stock-related articles are then categorized into positive or negative sentiment. Positive stock-related articles are labeled as 'pump' (suggesting upward market movement), while negative stock-related articles are labeled as 'dump' (suggesting downward market movement). The goal is to generate two outputs: one dataset containing pump events and another dataset containing dump events, providing a structured representation of financial market sentiment within news.",
+  "predicate_verbalization": {
+    "news": "News article arg0 has title arg1 and description arg2.",
+    "busNews": "Business-related news article arg0 has title arg1 and description arg2.",
+    "stckNews": "Stock-related business news article arg0 has title arg1 and description arg2.",
+    "pump": "Stock-related news article arg0 with title arg1 and description arg2 is classified as positive (pump).",
+    "dump": "Stock-related news article arg0 with title arg1 and description arg2 is classified as negative (dump)."
+  },
+  "rule_verbalization": {
+    "1": "If news article arg0 has title arg1 and description arg2, and the description arg2 is approximately about 'Business', then business-related news article arg0 has title arg1 and description arg2.",
+    "2": "If business-related news article arg0 has title arg1 and description arg2, and the description arg2 is approximately about 'Stocks', then stock-related business news article arg0 has title arg1 and description arg2.",
+    "3": "If stock-related news article arg0 has title arg1 and description arg2, and the description arg2 is approximately about 'Positive Sentiment', then stock-related news article arg0 with title arg1 and description arg2 is classified as positive (pump).",
+    "4": "If stock-related news article arg0 has title arg1 and description arg2, and the description arg2 is approximately about 'Negative Sentiment', then stock-related news article arg0 with title arg1 and description arg2 is classified as negative (dump)."
+  }
+}
