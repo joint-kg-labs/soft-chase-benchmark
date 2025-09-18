@@ -18,42 +18,38 @@
 # 1: Link case with its detailed transcript
 t(ID, N, HM, O) :-
     case(ID, N, _, _, _, _, _, _),
-    casedet(D, HM, _, O), HM=N.
+    casedet(HM, _, O), HM=N.
 
 # ====================
-# 2: Create citation relation from the mention in the head matter
+# 2: Match new case with existing cases with similar offense
+mayCite(IDN, IDC) :-
+    newcase(IDN, _, Offense1),
+    case(IDC, _, _, _, _, Offense2, _, _),
+    Offense1=Offense2.
+
+# ====================
+# 3: Create citation relation from the mention in the head matter
 cites(ID2, ID1) :-
     t(ID1, IsCited, _, _),
     t(ID2, _, IsCited, _).
 
 # ====================
-# 3: Every citation implies a "should cite"
-shouldCite(ID1, ID2) :-
+# 4: Each new case should cite another one
+shouldCite(IDN, ID2) :-
+    mayCite(IDN, ID1),
     cites(ID1, ID2).
 
 # ====================
-# 4: Transitive closure of "should cite"
+# 5: Transitive closure of "should cite"
 shouldCite(ID1, ID3) :-
     shouldCite(ID1, ID2),
     cites(ID2, ID3).
 
-# ====================
-# 5: Match new case with existing cases with similar offense
-mayCite(IDN, Name, IDC) :-
-    newcase(IDN, Name, Offense1),
-    case(IDC, _, _, _, _, Offense2, _, _),
-    Offense1=Offense2.
-
-# ====================
-# 6: Propagate potential citations along "should cite"
-mayCite(IDN, Name, ID2) :-
-    mayCite(IDN, Name, ID1),
-    shouldCite(ID1, ID2).
 
 # ====================
 # Q: Relevant cases for new case (conviction condition)
-relevantCase(IDN, Name1, IDC, Name2) :-
-    mayCite(IDN, Name1, IDC),
+relevantCase(IDN, IDC, Name2) :-
+    shouldCite(IDN, IDC),
     case(IDC, Name2, _, _, _, _, _, Decision),
     Decision = "convicted".
 
