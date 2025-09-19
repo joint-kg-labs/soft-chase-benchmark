@@ -10,25 +10,25 @@
 
 # ====================
 # 1: Extract Business news
-busNews(ID, Title, Txt) :-
+@softbinding busNews(ID, Title, Txt) :-
     news(ID, Title, Txt),
     Txt ≅ "Business".
 
 # ====================
 # 2: Extract Stock-related news from Business
-stckNews(ID, Title, Txt) :-
+@softbinding stckNews(ID, Title, Txt) :-
     busNews(ID, Title, Txt),
     Txt ≅ "Stocks".
 
 # ====================
 # 3: Positive statements → Pump
-pump(ID, Title, Txt) :-
+@softbinding pump(ID, Title, Txt) :-
     stckNews(ID, Title, Txt),
     Txt ≅ "Positive Sentiment".
 
 # ====================
 # 4: Negative statements → Dump
-dump(ID, Title, Txt) :-
+@softbinding  dump(ID, Title, Txt) :-
     stckNews(ID, Title, Txt),
     Txt ≅ "Negative Sentiment".
 

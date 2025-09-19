@@ -5,22 +5,23 @@
 @input("acc").
 
 # 1: link payments to originator and beneficiary IBANs
-p(ID, IBNO, IBNB, PR, A, T) :-
-    pmt(ID, BICO, BICB, NO, NB, PR, A, T),
-    acc(IBNO, NO, BICO),
-    acc(IBNB, NB, BICB).
+@softbinding p(ID, IBNO, IBNB, PR, A, T) :-
+    pmt(ID, BICO, BICB, NO1, NB1, PR, A, T),
+    acc(IBNO, NO2, BICO),
+    acc(IBNB, NB2, BICB),
+    NO1 = NO2, NB1 = NB2.
 
 # 2: introduce an (initially unknown) category for each payment
 cat(ID, PR, A, T, C) :-
     p(ID, IBNO, IBNB, PR, A, T).
 
 # 3–5: assign one of b2b, c2b, c2c based on the free-text reason
-C = "b2b" :-
-    cat(ID, "Business to Business", A, T, C).
-C = "c2b" :-
-    cat(ID, "Customer to Business", A, T, C).
-C = "c2c" :-
-    cat(ID, "Customer to Customer", A, T, C).
+@softbinding C = "b2b" :-
+    cat(ID, PR, A, T, C), PR ≅ "Business to Business".
+@softbinding C = "c2b" :-
+    cat(ID, PR, A, T, C), PR ≅ "Customer to Business".
+@softbinding C = "c2c" :-
+    cat(ID, PR,, A, T, C), PR ≅ "Customer to Customer".
 
 @output("cat").
 @executionMode("distributed").
