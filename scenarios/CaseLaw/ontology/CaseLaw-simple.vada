@@ -1,0 +1,25 @@
+# ====================
+# Bindings
+# ====================
+
+@bind("case", "csv useHeaders=true", "/../dataset", "cases.csv").
+@bind("casedet", "csv useHeaders=true", "/../dataset", "case_details.csv").
+
+# case: id,name,decision_date,jurisdiction_name,parties,offense,punishment,decision
+# casedet: head_matter,corrections,opinions
+# newcase: id, name, offense
+
+@input("case").
+@input("casedet").
+
+# ====================
+# 1: Link case with its detailed transcript
+transcript(ID, N, HM, O) :-
+    case(ID, N, _, _, _, _, _, _),
+    casedet(HM, _, O), HM=N.
+
+# ====================
+# Output
+# ====================
+@output("transcript")
+@executionMode("distributed").
