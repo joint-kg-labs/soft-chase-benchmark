@@ -10,27 +10,19 @@
 
 # ====================
 # 1: Extract Business news
-@softbinding busNews(ID, Title, Txt) :-
-    news(ID, Title, Txt),
-    Txt ~ "Business".
+@softbinding busNews(ID, Title, Txt) :- news(ID, Title, Txt), Txt ~ "Business".
 
 # ====================
 # 2: Extract Stock-related news from Business
-@softbinding stckNews(ID, Title, Txt) :-
-    busNews(ID, Title, Txt),
-    Txt ~ "Stocks".
+@softbinding stckNews(ID, Title, Txt) :- busNews(ID, Title, Txt), Txt ~ "Stocks".
 
 # ====================
 # 3: Positive statements → Pump
-@softbinding pump(ID, Title, Txt) :-
-    stckNews(ID, Title, Txt),
-    Txt ~ "Positive Sentiment".
+@softbinding pump(ID, Title, Txt) :- stckNews(ID, Title, Txt), Txt ~ "Positive Sentiment".
 
 # ====================
 # 4: Negative statements → Dump
-@softbinding  dump(ID, Title, Txt) :-
-    stckNews(ID, Title, Txt),
-    Txt ~ "Negative Sentiment".
+@softbinding  dump(ID, Title, Txt) :- stckNews(ID, Title, Txt), Txt ~ "Negative Sentiment".
 
 # ====================
 # Output
