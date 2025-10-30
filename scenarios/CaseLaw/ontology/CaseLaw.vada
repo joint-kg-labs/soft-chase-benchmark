@@ -16,22 +16,23 @@
 
 # ====================
 # 1: Link case with its detailed transcript
-t(ID, N, HM, O) :-
+@softbinding t(ID, N, HM, O) :-
     case(ID, N, _, _, _, _, _, _),
     casedet(HM, _, O), HM=N.
 
 # ====================
 # 2: Match new case with existing cases with similar offense
-mayCite(IDN, IDC) :-
+@softbinding mayCite(IDN, IDC) :-
     newcase(IDN, _, Offense1),
     case(IDC, _, _, _, _, Offense2, _, _),
     Offense1=Offense2.
 
 # ====================
 # 3: Create citation relation from the mention in the head matter
-cites(ID2, ID1) :-
-    t(ID1, IsCited, _, _),
-    t(ID2, _, IsCited, _).
+@softbinding cites(ID2, ID1) :-
+    t(ID1, Name, _, _),
+    t(ID2, _, HeadMatter, _),
+    Name=HeadMatter.
 
 # ====================
 # 4: Each new case should cite another one
@@ -48,14 +49,14 @@ shouldCite(ID1, ID3) :-
 
 # ====================
 # Q: Relevant cases for new case (conviction condition)
-relevantCase(IDN, IDC, Name2) :-
+relevantCase(IDN, IDC, Name) :-
     shouldCite(IDN, IDC),
-    case(IDC, Name2, _, _, _, _, _, Decision),
-    Decision = "convicted".
+    case(IDC, Name, _, _, _, _, _, Decision),
+    Decision ~ "convicted".
 
 # ====================
 # Output
 # ====================
 @output("cites")
 @output("relevantCase").
-@executionMode("distributed").
+@executionMode("softchase").

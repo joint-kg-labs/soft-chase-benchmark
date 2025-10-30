@@ -4,24 +4,34 @@
 @input("pmt").
 @input("acc").
 
-# 1: link payments to originator and beneficiary IBANs
-@softbinding p(ID, IBNO, IBNB, PR, A, T) :-
+# Step 1a — link payments to the originator IBAN (soft match on account number via acc)
+@softbinding payToOrigAccount(ID, IBNO, PR, A, T) :-
     pmt(ID, BICO, BICB, NO1, NB1, PR, A, T),
     acc(IBNO, NO2, BICO),
-    acc(IBNB, NB2, BICB),
-    NO1 = NO2, NB1 = NB2.
+    NO1 = NO2.
 
-# 2: introduce an (initially unknown) category for each payment
+# Step 1b — link payments to the beneficiary IBAN (soft match on account number via acc)
+@softbinding payToBenefAccount(ID, IBNB, PR, A, T) :-
+    pmt(ID, BICO, BICB, NO1, NB1, PR, A, T),
+    acc(IBNB, NB2, BICB),
+    NB1 = NB2.
+
+# Step 1c — consolidate both links into a single payment fact with originator & beneficiary IBANs
+p(ID, IBNO, IBNB, PR1, A1, T1) :-
+    payToOrigAccount(ID, IBNO, PR1, A1, T1),
+    payToBenefAccount(ID, IBNB, PR2, A2, T2).
+
+# Step 2 — seed a category attribute for each payment (initially unknown C)
 cat(ID, PR, A, T, C) :-
     p(ID, IBNO, IBNB, PR, A, T).
 
-# 3–5: assign one of b2b, c2b, c2c based on the free-text reason
+# Steps 3a–3c — assign category from free-text reason using soft text similarity
 @softbinding C = "b2b" :-
-    cat(ID, PR, A, T, C), PR ≅ "Business to Business".
+    cat(ID, PR, A, T, C), PR ~ "Business to Business".
 @softbinding C = "c2b" :-
-    cat(ID, PR, A, T, C), PR ≅ "Customer to Business".
+    cat(ID, PR, A, T, C), PR ~ "Customer to Business".
 @softbinding C = "c2c" :-
-    cat(ID, PR,, A, T, C), PR ≅ "Customer to Customer".
+    cat(ID, PR, A, T, C), PR ~ "Customer to Customer".
 
 @output("cat").
-@executionMode("distributed").
+@executionMode("softchase").

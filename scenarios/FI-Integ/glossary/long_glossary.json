@@ -8,13 +8,5 @@
     "sedol": "The instrument with SEDOL code arg0 has the name arg1, the description arg2, is issued in country arg3, and belongs to type arg4.",
     "id": "Identifier arg1 refers to instrument arg0, named arg2, described as arg3, issued in country arg4, of type arg5.",
     "link": "There is a link between identifier arg0 and identifier arg1 because they both point to the same instrument with internal ID."
-  },
-  "rule_verbalization": {
-    "1": "If a financial instrument is identified via ISIN code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",
-    "2": "If a financial instrument is identified via CUSIP code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",
-    "3": "If a financial instrument is identified via FIGI code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",
-    "4": "If a financial instrument is identified via SEDOL code arg0 and described by name arg1, description arg2, issued in arg3, and of type arg4, then it exists a unique ID argX using the Id predicate.",
-    "5": "If two financial instruments are identified (one by identifier arg0 via the Id predicate, and another by identifier arg1 via the Id predicate), and both share the same name arg2, description arg3, issued in country arg4, and of type arg5, then their internal IDs must be merged.",
-    "Q": "If two identifiers refer to the same internal instrument ID, then a Link is created between those identifiers."
   }
 }

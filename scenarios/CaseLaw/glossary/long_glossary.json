@@ -10,13 +10,5 @@
     "cites": "Case arg0 cites case arg1.",
     "shouldCite": "Case arg0 should cite case arg1.",
     "relevantCase": "New case arg0 has relevant convicted precedent case arg1 with name arg2."
-  },
-  "rule_verbalization": {
-    "1": "IF Case arg0 has name arg1, decision date arg2, jurisdiction arg3, parties arg4, offense arg5, punishment arg6, and decision arg7 AND Case details contain head matter arg8, corrections arg9, and opinions arg10 AND head matter arg8 refers to the case name arg1 THEN Case arg0 with name arg1 is linked to head matter arg9 and opinions arg11.",
-    "2": "IF New case arg0 has name arg1 and offense arg2 AND Case arg3 has name arg4, decision date arg5, jurisdiction arg6, parties arg7, offense arg8, punishment arg9, and decision arg10 AND offense arg2 is similar to offense arg8 THEN New case arg0 may cite case arg3 (same offense).",
-    "3": "IF Case arg0 with name arg1 is linked to head matter arg2 and opinions arg3 AND Case arg4 with name arg5 is linked to head matter arg1 and opinions arg6 THEN Case arg4 cites case arg0.",
-    "4": "IF New case arg0 may cite case arg1 (same offense) AND Case arg1 cites case arg2 THEN Case arg0 should cite case arg2.",
-    "5": "IF Case arg0 should cite case arg1 AND Case arg1 cites case arg2 THEN Case arg0 should cite case arg2.",
-    "Q": "IF New case arg0 should cite case arg1 AND Case arg1 has name arg2, decision date arg3, jurisdiction arg4, parties arg5, offense arg6, punishment arg7, and decision is 'convicted' THEN New case arg0 has relevant convicted precedent case arg1 with name arg2."
   }
 }

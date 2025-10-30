@@ -12,25 +12,25 @@
 # 1: Extract Business news
 @softbinding busNews(ID, Title, Txt) :-
     news(ID, Title, Txt),
-    Txt ≅ "Business".
+    Txt ~ "Business".
 
 # ====================
 # 2: Extract Stock-related news from Business
 @softbinding stckNews(ID, Title, Txt) :-
     busNews(ID, Title, Txt),
-    Txt ≅ "Stocks".
+    Txt ~ "Stocks".
 
 # ====================
 # 3: Positive statements → Pump
 @softbinding pump(ID, Title, Txt) :-
     stckNews(ID, Title, Txt),
-    Txt ≅ "Positive Sentiment".
+    Txt ~ "Positive Sentiment".
 
 # ====================
 # 4: Negative statements → Dump
 @softbinding  dump(ID, Title, Txt) :-
     stckNews(ID, Title, Txt),
-    Txt ≅ "Negative Sentiment".
+    Txt ~ "Negative Sentiment".
 
 # ====================
 # Output
@@ -40,4 +40,4 @@
 @output("dump").
 @bind("dump", "csv", "/../dataset", "dump.csv").
 
-@executionMode("distributed").
+@executionMode("softchase").

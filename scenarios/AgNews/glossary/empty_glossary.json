@@ -7,11 +7,5 @@
     "stckNews": "stckNews(arg0, arg1, arg2)",
     "pump": "pump(arg0, arg1, arg2)",
     "dump": "dump(arg0, arg1, arg2)"
-  },
-  "rule_verbalization": {
-    "1": "If news(arg0, arg1, arg2) holds and arg2 ≅ \"Business\", then busNews(arg0, arg1, arg2) holds.",
-    "2": "If busNews(arg0, arg1, arg2) holds and arg2 ≅ \"Stocks\", then stckNews(arg0, arg1, arg2) holds.",
-    "3": "If stckNews(arg0, arg1, arg2) holds and arg2 ≅ \"Pos. stat.\", then pump(arg0, arg1, arg2) holds.",
-    "4": "If stckNews(arg0, arg1, arg2) holds and arg2 ≅ \"Neg. stat.\", then dump(arg0, arg1, arg2) holds."
   }
 }

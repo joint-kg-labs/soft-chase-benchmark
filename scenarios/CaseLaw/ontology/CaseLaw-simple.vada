@@ -14,7 +14,7 @@
 
 # ====================
 # 1: Link case with its detailed transcript
-transcript(ID, N, HM, O) :-
+@softbinding transcript(ID, N, HM, O) :-
     case(ID, N, _, _, _, _, _, _),
     casedet(HM, _, O), HM=N.
 
@@ -22,4 +22,4 @@ transcript(ID, N, HM, O) :-
 # Output
 # ====================
 @output("transcript")
-@executionMode("distributed").
+@executionMode("softchase").

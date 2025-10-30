@@ -7,11 +7,5 @@
     "stckNews": "Stock-related business news article arg0 has title arg1 and description arg2.",
     "pump": "Stock-related news article arg0 with title arg1 and description arg2 is classified as positive (pump).",
     "dump": "Stock-related news article arg0 with title arg1 and description arg2 is classified as negative (dump)."
-  },
-  "rule_verbalization": {
-    "1": "If news article arg0 has title arg1 and description arg2, and the description arg2 is approximately about 'Business', then business-related news article arg0 has title arg1 and description arg2.",
-    "2": "If business-related news article arg0 has title arg1 and description arg2, and the description arg2 is approximately about 'Stocks', then stock-related business news article arg0 has title arg1 and description arg2.",
-    "3": "If stock-related news article arg0 has title arg1 and description arg2, and the description arg2 is approximately about 'Positive Sentiment', then stock-related news article arg0 with title arg1 and description arg2 is classified as positive (pump).",
-    "4": "If stock-related news article arg0 has title arg1 and description arg2, and the description arg2 is approximately about 'Negative Sentiment', then stock-related news article arg0 with title arg1 and description arg2 is classified as negative (dump)."
   }
 }
