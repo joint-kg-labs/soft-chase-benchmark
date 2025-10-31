@@ -49,7 +49,7 @@ shouldCite(ID1, ID3) :-
 
 # ====================
 # Q: Relevant cases for new case (conviction condition)
-relevantCase(IDN, IDC, Name) :-
+@softbinding relevantCase(IDN, IDC, Name) :-
     shouldCite(IDN, IDC),
     case(IDC, Name, _, _, _, _, _, Decision),
     Decision ~ "convicted".
