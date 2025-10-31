@@ -19,7 +19,7 @@ id(I, FIGI, N, D, C, T)   :- figi(FIGI, N, D, C, T).
 id(I, SEDOL, N, D, C, T) :- sedol(SEDOL, N, D, C, T).
 
 # 5: unify internal IDs when two records share all semantic fields but differ on the external code
-@softbinding I1 = I2 :-
+@softbinding egdBody(I1,I2) :-
     id(I1, ID1, N1, D1, C1, T1),
     id(I2, ID2, N2, D2, C2, T2),
     ID1 <> ID2,
@@ -27,6 +27,8 @@ id(I, SEDOL, N, D, C, T) :- sedol(SEDOL, N, D, C, T).
     D1 = D2,
     C1 = C2,
     T1 = T2.
+
+I1=I2 :- egdBody(I1,I2).
 
 @output("id").
 @executionMode("softchase").

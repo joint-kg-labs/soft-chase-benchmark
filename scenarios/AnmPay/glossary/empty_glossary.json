@@ -11,9 +11,9 @@
     "anomaly": "anomaly(arg0)"
   },
   "linking_operator": {
-    "@softbinding C = Cat :- cat(ID, PR, A, T, C), Cat=\"b2b\", PR ~ \"Business to Business\".": ["PR category is 'Business to Business'."],
-    "@softbinding C = Cat :- cat(ID, PR, A, T, C), Cat=\"c2b\", PR ~ \"Customer to Business\".": ["PR category is 'Customer to Business'."],
-    "@softbinding C = Cat :- cat(ID, PR, A, T, C), Cat=\"c2c\", PR ~ \"Customer to Customer\".": ["PR category is 'Customer to Customer'."]
+    "@softbinding egdBody(C,Cat) :- cat(ID, PR, A, T, C), Cat=\"b2b\", PR ~ \"Business to Business\".": ["PR category is 'Business to Business'."],
+    "@softbinding egdBody(C,Cat) :- cat(ID, PR, A, T, C), Cat=\"c2b\", PR ~ \"Customer to Business\".": ["PR category is 'Customer to Business'."],
+    "@softbinding egdBody(C,Cat) :- cat(ID, PR, A, T, C), Cat=\"c2c\", PR ~ \"Customer to Customer\".": ["PR category is 'Customer to Customer'."]
   }
 }
 
