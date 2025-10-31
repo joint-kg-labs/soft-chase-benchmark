@@ -11,8 +11,8 @@
     "anomaly": "Payment arg0 is flagged as anomalous because its category deviates from the most frequent category of the originator."
   },
   "linking_operator": {
-    "@softbinding C = \"b2b\" :- cat(ID, PR, A, T, C), PR ~ \"Business to Business\".": ["PR is associated to a payment category between two Businesses, i.e., 'Business to Business'."],
-    "@softbinding C = \"c2b\" :- cat(ID, PR, A, T, C), PR ~ \"Customer to Business\".": ["PR is associated to a payment category from a Customer to a Business, i.e., 'Customer to Business'."],
-    "@softbinding C = \"c2c\" :- cat(ID, PR, A, T, C), PR ~ \"Customer to Customer\".": ["PR is associated to a payment category from a Customer to a Business, i.e., 'Customer to Customer'."]
+    "@softbinding C = Cat :- cat(ID, PR, A, T, C), Cat=\"b2b\", PR ~ \"Business to Business\".": ["PR is associated to a payment category between two Businesses, i.e., 'Business to Business'."],
+    "@softbinding C = Cat :- cat(ID, PR, A, T, C), Cat=\"c2b\", PR ~ \"Customer to Business\".": ["PR is associated to a payment category from a Customer to a Business, i.e., 'Customer to Business'."],
+    "@softbinding C = Cat :- cat(ID, PR, A, T, C), Cat=\"c2c\", PR ~ \"Customer to Customer\".": ["PR is associated to a payment category from a Customer to a Business, i.e., 'Customer to Customer'."]
   }
 }

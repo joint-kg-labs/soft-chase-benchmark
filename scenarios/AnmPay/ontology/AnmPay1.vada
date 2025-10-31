@@ -26,12 +26,12 @@ cat(ID, PR, A, T, C) :-
     p(ID, IBNO, IBNB, PR, A, T).
 
 # Steps 3a–3c — assign category from free-text reason using soft text similarity
-@softbinding C = "b2b" :-
-    cat(ID, PR, A, T, C), PR ~ "Business to Business".
-@softbinding C = "c2b" :-
-    cat(ID, PR, A, T, C), PR ~ "Customer to Business".
-@softbinding C = "c2c" :-
-    cat(ID, PR, A, T, C), PR ~ "Customer to Customer".
+@softbinding C = Cat :-
+    cat(ID, PR, A, T, C), Cat="b2b", PR ~ "Business to Business".
+@softbinding C = Cat :-
+    cat(ID, PR, A, T, C), Cat="c2b", PR ~ "Customer to Business".
+@softbinding C = Cat :-
+    cat(ID, PR, A, T, C), Cat="c2c", PR ~ "Customer to Customer".
 
 @output("cat").
 @executionMode("softchase").
