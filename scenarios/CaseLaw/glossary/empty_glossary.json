@@ -10,5 +10,8 @@
     "cites": "cites(arg0, arg1)",
     "shouldCite": "shouldCite(arg0, arg1)",
     "relevantCase": "relevantCase(arg0, arg1, arg2)"
+  },
+  "linking_operator": {
+    "relevantCase(IDN, IDC, Name) :- shouldCite(IDN, IDC), case(IDC, Name, _, _, _, _, _, Decision), Decision ~ \"convicted\".": ["Decision is expressing a conviction for the defendant."]
   }
 }

@@ -10,5 +10,8 @@
     "cites": "Case arg0 cites case arg1.",
     "shouldCite": "Case arg0 should cite case arg1.",
     "relevantCase": "New case arg0 has relevant precedent case arg1 with name arg2."
+  },
+  "linking_operator": {
+    "relevantCase(IDN, IDC, Name) :- shouldCite(IDN, IDC), case(IDC, Name, _, _, _, _, _, Decision), Decision ~ \"convicted\".": ["Decision is expressing a conviction for the defendant."]
   }
 }

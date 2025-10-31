@@ -9,6 +9,11 @@
     "p": "p(arg0, arg1, arg2, arg3, arg4, arg5)",
     "cat": "cat(arg0, arg1, arg2, arg3, arg4)",
     "anomaly": "anomaly(arg0)"
+  },
+  "linking_operator": {
+    "@softbinding C = \"b2b\" :- cat(ID, PR, A, T, C), PR ~ \"Business to Business\".": ["PR category is 'Business to Business'."],
+    "@softbinding C = \"c2b\" :- cat(ID, PR, A, T, C), PR ~ \"Customer to Business\".": ["PR category is 'Customer to Business'."],
+    "@softbinding C = \"c2c\" :- cat(ID, PR, A, T, C), PR ~ \"Customer to Customer\".": ["PR category is 'Customer to Customer'."]
   }
 }
 

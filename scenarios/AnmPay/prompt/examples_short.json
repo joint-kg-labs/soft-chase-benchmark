@@ -22,7 +22,7 @@
       "Explanation": "The originator name on the account (Quinn O’Donnell) matches after case-insensitive comparison, but the beneficiary name (Mike Mbatha) does not match the payment’s beneficiary (yvette mbatha), so the payment cannot be linked correctly."
     }
   },
-  "@softbinding C = \"b2b\" :- cat(ID, PR, A, T, C), PR ≅ \"Business to Business\".": {
+  "@softbinding C = \"b2b\" :- cat(ID, PR, A, T, C), PR ~ \"Business to Business\".": {
     "example1": {
       "Fact1": "The payment record 1 has originator BIC 79IV2F1FK, beneficiary BIC MYXBD07Q2, originator name Chiara Esposito, beneficiary name B. Tran, reason invc_#4778_payment, amount 242.16, and timestamp 2025-07-20 11:45:43.857801.",
       "Fact2": "Payment 1 with reason invc_#4778_payment, amount 242.16, and timestamp 2025-07-20 11:45:43.857801 is assigned category C (placeholder).",

@@ -7,5 +7,11 @@
     "stckNews": "stckNews(arg0, arg1, arg2)",
     "pump": "pump(arg0, arg1, arg2)",
     "dump": "dump(arg0, arg1, arg2)"
+  },
+ "linking_operator": {
+    "@softbinding busNews(ID, Title, Txt) :- news(ID, Title, Txt), Txt ~ \"Business\".": ["Txt is business-related."],
+    "@softbinding stckNews(ID, Title, Txt) :- busNews(ID, Title, Txt), Txt ~ \"Stocks\".": ["Txt is about stocks."],
+    "@softbinding pump(ID, Title, Txt) :- stckNews(ID, Title, Txt), Txt ~ \"Positive Sentiment\".": ["Txt expresses a positive sentiment."],
+    "@softbinding dump(ID, Title, Txt) :- stckNews(ID, Title, Txt), Txt ~ \"Negative Sentiment\".": ["Txt expresses a negative sentiment."]
   }
 }

@@ -7,5 +7,11 @@
     "stckNews": "Stock-related business news article arg0 has title arg1 and description arg2.",
     "pump": "Stock-related news article arg0 with title arg1 and description arg2 is classified as positive (pump).",
     "dump": "Stock-related news article arg0 with title arg1 and description arg2 is classified as negative (dump)."
+  },
+  "linking_operator": {
+    "@softbinding busNews(ID, Title, Txt) :- news(ID, Title, Txt), Txt ~ \"Business\".": ["Txt is business-related (semantic match to 'Business')."],
+    "@softbinding stckNews(ID, Title, Txt) :- busNews(ID, Title, Txt), Txt ~ \"Stocks\".": ["Txt is about stocks within business news."],
+    "@softbinding pump(ID, Title, Txt) :- stckNews(ID, Title, Txt), Txt ~ \"Positive Sentiment\".": ["Txt expresses a positive (bullish) sentiment about stocks."],
+    "@softbinding dump(ID, Title, Txt) :- stckNews(ID, Title, Txt), Txt ~ \"Negative Sentiment\".": ["Txt expresses a negative (bearish) sentiment about stocks."]
   }
 }
