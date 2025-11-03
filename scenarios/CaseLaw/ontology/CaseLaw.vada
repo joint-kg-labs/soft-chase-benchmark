@@ -7,7 +7,7 @@
 @bind("newcase", "csv useHeaders=true", "/../dataset", "new_cases.csv").
 
 # case: id,name,decision_date,jurisdiction_name,parties,offense,punishment,decision
-# casedet: head_matter,corrections,opinions
+# casedet: id, head_matter,corrections,opinions
 # newcase: id, name, offense
 
 @input("case").
@@ -16,9 +16,9 @@
 
 # ====================
 # 1: Link case with its detailed transcript
-@softbinding t(ID, N, HM, O) :-
+t(ID, N, HM, O) :-
     case(ID, N, _, _, _, _, _, _),
-    casedet(HM, _, O), HM=N.
+    casedet(ID, HM, _, O).
 
 # ====================
 # 2: Match new case with existing cases with similar offense

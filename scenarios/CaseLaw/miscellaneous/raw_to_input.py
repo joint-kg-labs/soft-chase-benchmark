@@ -24,7 +24,7 @@ new_cases.to_csv("../dataset/new_cases.csv", index=False)
 details_aug = pd.read_csv("../dataset/raw/case_details_texas.csv")
 
 # Project the desired columns
-case_details = details_aug[['head_matter', 'corrections', 'opinions']]
+case_details = details_aug[['id', 'head_matter', 'corrections', 'opinions']]
 
 # Rename 'head_matter' to 'matter'
 case_details = case_details.rename(columns={'head_matter': 'matter'})

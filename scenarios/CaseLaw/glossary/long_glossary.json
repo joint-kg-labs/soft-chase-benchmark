@@ -3,7 +3,7 @@
   "domain_context": "This scenario reasons over legal case data to (i) link each case to its detailed transcript, (ii) derive explicit citation relations from head-matter mentions, (iii) match new cases to prior cases that share the same offense, (iv) propagate recommended citations from those matches through the citation graph, and (v) surface as relevant only those recommended precedents that resulted in a conviction. The data sources are: (1) case records (id, name, decision_date, jurisdiction_name, parties, offense, punishment, decision), (2) case details (head_matter, corrections, opinions; represented with four arguments to allow an identifier plus the three fields), and (3) new cases (id, name, offense). The outputs are a set of citation edges between cases and the set of relevant convicted precedents per new case.",
   "predicate_verbalization": {
     "case": "Case arg0 has name arg1, decision date arg2, jurisdiction arg3, parties arg4, offense arg5, punishment arg6, and decision arg7.",
-    "casedet": "Case details contain head matter arg0, corrections arg1, and opinions arg2.",
+    "casedet": "Case details with id arg0 contain head matter arg1, corrections arg2, and opinions arg3.",
     "newcase": "New case arg0 has name arg1 and offense arg2.",
     "t": "Case arg0 with name arg1 is linked to head matter arg2 and opinions arg3.",
     "mayCite": "New case arg0 may cite case arg1 (same offense).",

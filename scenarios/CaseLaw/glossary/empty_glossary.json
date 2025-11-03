@@ -3,7 +3,7 @@
   "domain_context": "",
   "predicate_verbalization": {
     "case": "case(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)",
-    "casedet": "casedet(arg0, arg1, arg2)",
+    "casedet": "casedet(arg0, arg1, arg2, arg3)",
     "newcase": "newcase(arg0, arg1, arg2)",
     "t": "t(arg0, arg1, arg2, arg3)",
     "mayCite": "mayCite(arg0, arg1)",
