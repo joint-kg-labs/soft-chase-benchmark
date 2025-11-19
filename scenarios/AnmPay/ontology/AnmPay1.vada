@@ -1,31 +1,35 @@
-@bind("pmt", "csv useHeaders=true", "/../dataset", "payments.csv").
-@bind("acc", "csv useHeaders=true", "/../dataset", "accounts.csv").
+@bind("pmt", "csv useHeaders=false", "/../dataset", "payments.csv").
+@bind("acc", "csv useHeaders=false", "/../dataset", "accounts.csv").
+
+@glossary("/../glossary/short_glossary.json").
+% @glossary("/../glossary/long_glossary.json").
+% @glossary("/../glossary/empty_glossary.json").
 
 @input("pmt").
 @input("acc").
 
-# Step 1a — link payments to the originator IBAN (soft match on account number via acc)
+% Step 1a — link payments to the originator IBAN (soft match on account number via acc)
 @softbinding payToOrigAccount(ID, IBNO, PR, A, T) :-
     pmt(ID, BICO, BICB, NO1, NB1, PR, A, T),
     acc(IBNO, NO2, BICO),
     NO1 = NO2.
 
-# Step 1b — link payments to the beneficiary IBAN (soft match on account number via acc)
+% Step 1b — link payments to the beneficiary IBAN (soft match on account number via acc)
 @softbinding payToBenefAccount(ID, IBNB, PR, A, T) :-
     pmt(ID, BICO, BICB, NO1, NB1, PR, A, T),
     acc(IBNB, NB2, BICB),
     NB1 = NB2.
 
-# Step 1c — consolidate both links into a single payment fact with originator & beneficiary IBANs
+% Step 1c — consolidate both links into a single payment fact with originator & beneficiary IBANs
 p(ID, IBNO, IBNB, PR1, A1, T1) :-
     payToOrigAccount(ID, IBNO, PR1, A1, T1),
     payToBenefAccount(ID, IBNB, PR2, A2, T2).
 
-# Step 2 — seed a category attribute for each payment (initially unknown C)
+% Step 2 — seed a category attribute for each payment (initially unknown C)
 cat(ID, PR, A, T, C) :-
     p(ID, IBNO, IBNB, PR, A, T).
 
-# Steps 3a–3c — assign category from free-text reason using soft text similarity
+% Steps 3a–3c — assign category from free-text reason using soft text similarity
 @softbinding egdBody(C,"b2b") :-
     cat(ID, PR, A, T, C), PR ~ "Business to Business".
 @softbinding egdBody(C,"c2b") :-
@@ -36,4 +40,5 @@ cat(ID, PR, A, T, C) :-
 C=Cat :- egdBody(C,Cat).
 
 @output("cat").
+@bind("cat",  "csv useHeaders=false", "/../dataset",  "category.csv").
 @executionMode("softchase").

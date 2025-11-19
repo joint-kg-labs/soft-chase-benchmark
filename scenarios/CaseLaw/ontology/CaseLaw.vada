@@ -1,62 +1,70 @@
-# ====================
-# Bindings
-# ====================
+% ====================
+% Bindings
+% ====================
 
 @bind("case", "csv useHeaders=true", "/../dataset", "cases.csv").
 @bind("casedet", "csv useHeaders=true", "/../dataset", "case_details.csv").
 @bind("newcase", "csv useHeaders=true", "/../dataset", "new_cases.csv").
 
-# case: id,name,decision_date,jurisdiction_name,parties,offense,punishment,decision
-# casedet: id, head_matter,corrections,opinions
-# newcase: id, name, offense
+@glossary("/../glossary/short_glossary.json").
+% @glossary("/../glossary/long_glossary.json").
+% @glossary("/../glossary/empty_glossary.json").
+
+% case: id,name,decision_date,jurisdiction_name,parties,offense,punishment,decision
+% casedet: id, head_matter,corrections,opinions
+% newcase: id, name, offense
 
 @input("case").
 @input("casedet").
 @input("newcase").
 
-# ====================
-# 1: Link case with its detailed transcript
+% ====================
+% 1: Link case with its detailed transcript
 t(ID, N, HM, O) :-
     case(ID, N, _, _, _, _, _, _),
     casedet(ID, HM, _, O).
 
-# ====================
-# 2: Match new case with existing cases with similar offense
+% ====================
+% 2: Match new case with existing cases with similar offense
 @softbinding mayCite(IDN, IDC) :-
     newcase(IDN, _, Offense1),
     case(IDC, _, _, _, _, Offense2, _, _),
     Offense1=Offense2.
 
-# ====================
-# 3: Create citation relation from the mention in the head matter
+% ====================
+% 3: Create citation relation from the mention in the head matter
 @softbinding cites(ID2, ID1) :-
     t(ID1, Name, _, _),
     t(ID2, _, HeadMatter, _),
     Name=HeadMatter.
 
-# ====================
-# 4: Each new case should cite another one
+% ====================
+% 4: Each new case should cite another one
 shouldCite(IDN, ID2) :-
     mayCite(IDN, ID1),
     cites(ID1, ID2).
 
-# ====================
-# 5: Transitive closure of "should cite"
+% ====================
+% 5: Transitive closure of "should cite"
 shouldCite(ID1, ID3) :-
     shouldCite(ID1, ID2),
     cites(ID2, ID3).
 
 
-# ====================
-# Q: Relevant cases for new case (conviction condition)
+% ====================
+% Q: Relevant cases for new case (conviction condition)
 @softbinding relevantCase(IDN, IDC, Name) :-
     shouldCite(IDN, IDC),
     case(IDC, Name, _, _, _, _, _, Decision),
     Decision ~ "convicted".
 
-# ====================
-# Output
-# ====================
-@output("cites")
+% ====================
+% Output
+% ====================
+@output("cites").
 @output("relevantCase").
 @executionMode("softchase").
+
+@bind("cites",  "csv useHeaders=false", "/../dataset",  "cites.csv").
+@bind("relevantCase",  "csv useHeaders=false", "/../dataset",  "relevantCase.csv").
+

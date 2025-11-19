@@ -4,17 +4,18 @@
 @input("cat").
 @input("p").
 
-# 6: for each payment, count how many times each category occurs for the same originator
+% 6: for each payment, count how many times each category occurs for the same originator
 frequency(IBNO, C, Cnt) :- cat(ID, _, _, _, C), p(ID, IBNO, _, _, _, _), Cnt = count(C).
 
-# 7: for each originator, compute the maximum frequency observed among its categories
+% 7: for each originator, compute the maximum frequency observed among its categories
 maxC(IBNO, M) :- frequency(IBNO, C, Cnt), M = mmax(Cnt).
 
-# 8: identify the most frequent category for each originator
+% 8: identify the most frequent category for each originator
 maxCategory(IBNO, C) :- maxC(IBNO, M), frequency(IBNO, C, M).
 
-# 9: flag as anomaly any payments whose category does not match the most frequent category of the originator
+% 9: flag as anomaly any payments whose category does not match the most frequent category of the originator
 anomaly(ID) :- p(ID, IBNO, _, _, _, _), cat(ID, _, _, _, C1), maxCategory(IBNO, C2), C1<>C2.
 
 @output("anomaly").
+@bind("anomaly",  "csv useHeaders=false", "/../dataset",  "anomaly.csv").
 @executionMode("distributed").

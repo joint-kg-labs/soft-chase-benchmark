@@ -1,32 +1,36 @@
-# ====================
-# Bindings
-# ====================
+% ====================
+% Bindings
+% ====================
 
-@bind("news", "csv useHeaders=true", "/../dataset", "agnews.csv").
+@bind("news", "csv useHeaders=false", "/../dataset", "agnews.csv").
+@glossary("/../glossary/short_glossary.json").
+% @glossary("/../glossary/long_glossary.json").
+% @glossary("/../glossary/empty_glossary.json").
 
-# news: id,title,news_description
+
+% news: id,title,news_description
 
 @input("news").
 
-# ====================
-# 1: Extract Business news
+% ====================
+% 1: Extract Business news
 @softbinding busNews(ID, Title, Txt) :- news(ID, Title, Txt), Txt ~ "Business".
 
-# ====================
-# 2: Extract Stock-related news from Business
+% ====================
+% 2: Extract Stock-related news from Business
 @softbinding stckNews(ID, Title, Txt) :- busNews(ID, Title, Txt), Txt ~ "Stocks".
 
-# ====================
-# 3: Positive statements → Pump
+% ====================
+% 3: Positive statements → Pump
 @softbinding pump(ID, Title, Txt) :- stckNews(ID, Title, Txt), Txt ~ "Positive Sentiment".
 
-# ====================
-# 4: Negative statements → Dump
+% ====================
+% 4: Negative statements → Dump
 @softbinding  dump(ID, Title, Txt) :- stckNews(ID, Title, Txt), Txt ~ "Negative Sentiment".
 
-# ====================
-# Output
-# ====================
+% ====================
+% Output
+% ====================
 @output("pump").
 @bind("pump", "csv", "/../dataset", "pump.csv").
 @output("dump").

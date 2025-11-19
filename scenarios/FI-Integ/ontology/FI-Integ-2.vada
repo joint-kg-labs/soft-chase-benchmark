@@ -1,13 +1,13 @@
-@bind("id",  "csv useHeaders=true", "/../dataset",  "id.csv").
+@bind("id",  "csv useHeaders=false", "/../dataset",  "id.csv").
 @input("id").
 
-# Query Q
+% Query Q
 link(ID1, ID2) :-
     id(I, ID1, N1, D1, C1, T1),
     id(I, ID2, N2, D2, C2, T2),
     ID1 <> ID2.
 
 @output("link").
-@bind("id",  "csv useHeaders=true", "/../dataset",  "link.csv").
+@bind("link",  "csv useHeaders=false", "/../dataset",  "link.csv").
 @executionMode("distributed").
 
