@@ -2,7 +2,7 @@ import pandas as pd
 
 # --- Input / Output ---
 input_file = "../dataset/raw/news_10k_augmented.csv"  # your input CSV
-output_file = "../dataset/agnews.csv"  # projected output CSV
+output_file = "../dataset/agnews500.csv"  # projected output CSV
 
 # --- Load CSV ---
 df = pd.read_csv(input_file)

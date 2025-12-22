@@ -1,17 +1,17 @@
-@bind("arc", "csv useHeaders=true", "/../graphs", "ARC.csv").
+@bind("arc", "csv", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\SymbolicChaseScenarios\\graphs", "Tree11.csv").
 
 @input("arc").
 
-# σ1: A direct arc implies a transitive connection
-# 1
 tc(X, Y) :-
     arc(X, Y).
 
-# σ2: Transitive closure through intermediate nodes
-# 2
 tc(X, Z) :-
     tc(X, Y),
     arc(Y, Z).
 
-@output("tc").
-@executionMode("distributed").
+outputSize(1,Z) :- tc(_,_), Z=msum(1).
+
+@output("outputSize").
+%@executionMode("distributed").
+@executionMode("softchase").
+

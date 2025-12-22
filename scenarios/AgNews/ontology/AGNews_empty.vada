@@ -2,10 +2,8 @@
 % Bindings
 % ====================
 
-@bind("news", "csv useHeaders=false", "/../dataset", "agnews.csv").
-@glossary("/../glossary/short_glossary.json").
-% @glossary("/../glossary/long_glossary.json").
-% @glossary("/../glossary/empty_glossary.json").
+@bind("news", "csv useHeaders=false", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\AgNews\\dataset", "agnews500.csv").
+@glossary("C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\AgNews\\glossary\\empty_glossary.json").
 
 
 % news: id,title,news_description
@@ -32,8 +30,8 @@
 % Output
 % ====================
 @output("pump").
-@bind("pump", "csv", "/../dataset", "pump.csv").
+@bind("pump", "csv", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\AgNews\\chase\\empty", "pump.csv").
 @output("dump").
-@bind("dump", "csv", "/../dataset", "dump.csv").
+@bind("dump", "csv", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\AgNews\\chase\\empty", "dump.csv").
 
 @executionMode("softchase").
