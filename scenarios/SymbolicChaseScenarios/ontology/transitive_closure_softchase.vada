@@ -9,7 +9,7 @@ tc(X, Z) :-
     tc(X, Y),
     arc(Y, Z).
 
-outputSize(1,Z) :- tc(_,_), Z=msum(1).
+outputSize("output",Z) :- tc(_,_), Z=msum(1).
 
 @output("outputSize").
 %@executionMode("distributed").

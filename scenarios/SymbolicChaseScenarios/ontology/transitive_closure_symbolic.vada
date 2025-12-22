@@ -1,0 +1,15 @@
+@bind("arc", "csv", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\SymbolicChaseScenarios\\graphs", "Tree11.csv").
+
+@input("arc").
+
+tc(X, Y) :-
+    arc(X, Y).
+
+tc(X, Z) :-
+    tc(X, Y),
+    arc(Y, Z).
+
+outputSize("output",Z) :- tc(_,_), Z=msum(1).
+
+@output("outputSize").
+@executionMode("distributed").
