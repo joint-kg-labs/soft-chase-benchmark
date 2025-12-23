@@ -15,3 +15,6 @@ outputSize("output",Z) :- tc(_,_), Z=msum(1).
 %@executionMode("distributed").
 @executionMode("softchase").
 
+
+%@glossary("C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\SymbolicChaseScenarios\\glossary\\glossary.json").
+

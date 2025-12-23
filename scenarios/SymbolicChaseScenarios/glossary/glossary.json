@@ -1,0 +1,9 @@
+{
+  "glossary_type": "Any",
+  "domain_context": "This scenario models reachability in a directed graph. The predicate arc/2 represents a directed edge from a source node to a target node, loaded from a CSV file. The predicate tc/2 represents the transitive closure of arc/2: tc(X,Y) holds when there is a path (of length 1 or more) from node X to node Y following directed edges. The output predicate outputSize/2 computes the total number of derived tc facts (i.e., the size of the transitive closure) by summing 1 for each tc(_,_) fact.",
+  "predicate_verbalization": {
+    "arc": "There is a directed edge from node arg0 to node arg1.",
+    "tc": "There is a directed path from node arg0 to node arg1 (reachable via one or more arc steps).",
+    "outputSize": "arg0 is a label and arg1 is the total number of reachable pair."
+  }
+}

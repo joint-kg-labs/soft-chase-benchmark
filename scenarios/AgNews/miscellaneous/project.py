@@ -7,6 +7,8 @@ output_file = "../dataset/agnews500.csv"  # projected output CSV
 # --- Load CSV ---
 df = pd.read_csv(input_file)
 
+df = df.iloc[0:500, :]
+
 # --- Project desired columns ---
 projected = df[["id", "Title", "Description"]]
 
