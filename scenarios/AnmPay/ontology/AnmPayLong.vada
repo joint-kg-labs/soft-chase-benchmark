@@ -1,9 +1,7 @@
-@bind("pmt", "csv useHeaders=false", "/../dataset", "payments.csv").
-@bind("acc", "csv useHeaders=false", "/../dataset", "accounts.csv").
+@bind("pmt", "csv useHeaders=false", "/../dataset/500", "payments.csv").
+@bind("acc", "csv useHeaders=false", "/../dataset/500", "accounts.csv").
 
-@glossary("/../glossary/short_glossary.json").
-% @glossary("/../glossary/long_glossary.json").
-% @glossary("/../glossary/empty_glossary.json").
+@glossary("/../glossary/long_glossary.json").
 
 @input("pmt").
 @input("acc").
@@ -40,5 +38,5 @@ cat(ID, PR, A, T, C) :-
 C=Cat :- egdBody(C,Cat).
 
 @output("cat").
-@bind("cat",  "csv useHeaders=false", "/../dataset",  "category.csv").
+@bind("cat",  "csv useHeaders=false", "/../chase/long",  "category.csv").
 @executionMode("softchase").

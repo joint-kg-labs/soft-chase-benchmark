@@ -1,9 +1,9 @@
 import pandas as pd
 
 # Load CSVs
-payments = pd.read_csv("../dataset/payments.csv")
-accounts = pd.read_csv("../dataset/accounts.csv")  # Not directly needed here, but loaded if useful
-reason_variations = pd.read_csv("../dataset/reason_variations.csv")
+payments = pd.read_csv("../dataset/500/payments.csv")
+accounts = pd.read_csv("../dataset/500/accounts.csv")  # Not directly needed here, but loaded if useful
+reason_variations = pd.read_csv("../dataset/500/reason_variations.csv")
 base_reasons = pd.read_csv("../generation_script/base_reasons.csv")
 
 # 1) Map payment_reason -> base_reason
@@ -45,4 +45,4 @@ print("\nAnomalous payments (not matching dominant category):")
 print(anomalies[["payment_id", "bic_origin", "payment_reason",
                  "category", "dominant_category", "dominant_count"]])
 
-anomalies[["payment_id"]].to_csv("../ground_truth/golden_set_fscore.csv", index=False)
+anomalies[["payment_id"]].to_csv("../ground_truth/500/golden_set_fscore.csv", index=False)

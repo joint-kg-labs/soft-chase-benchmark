@@ -1,5 +1,5 @@
-@bind("cat", "csv useHeaders=true", "/../dataset", "category.csv").
-@bind("p", "csv useHeaders=true", "/../dataset", "p.csv").
+@bind("cat", "csv useHeaders=true", "/../chase/short", "category.csv").
+@bind("p", "csv useHeaders=true", "/../dataset", "payments.csv").
 
 @input("cat").
 @input("p").
@@ -17,5 +17,5 @@ maxCategory(IBNO, C) :- maxC(IBNO, M), frequency(IBNO, C, M).
 anomaly(ID) :- p(ID, IBNO, _, _, _, _), cat(ID, _, _, _, C1), maxCategory(IBNO, C2), C1<>C2.
 
 @output("anomaly").
-@bind("anomaly",  "csv useHeaders=false", "/../dataset",  "anomaly.csv").
+@bind("anomaly",  "csv useHeaders=false", "/../chase/short",  "anomaly.csv").
 @executionMode("distributed").
