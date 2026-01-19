@@ -13,7 +13,7 @@ with high semantic similarity (using Sentence-BERT embeddings).
 
 Usage (from command line):
 --------------------------
-python strict_soft_query_evaluator.py \\
+python fscore_evaluator.py \\
     --gold path/to/gold.csv \\
     --retrieved path/to/retrieved.csv \\
     --model mini \\
@@ -28,7 +28,7 @@ Arguments:
 
 Example:
 --------
-python strict_soft_query_evaluator.py \\
+python fscore_evaluator.py \\
     --gold gold_answers.csv \\
     --retrieved predicted_answers.csv \\
     --model mpnet \\

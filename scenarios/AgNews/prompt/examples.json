@@ -1,0 +1,70 @@
+{
+  "@softbinding busNews(ID, Title, Txt) :- news(ID, Title, Txt), Txt ~ \"Business\".": {
+    "example1": {
+      "Fact1": "The news article 1 has title Candidates Preach Oil Independence to Unconverted Public and description Both major candidates for president want the country to be...r is elected will face many of the same challenges that defeated.",
+      "Decision": "Yes",
+      "Explanation": "The description is about national energy policy, oil independence, and broader economic/industry implications—topics typically treated as Business news. Therefore, Txt ≅ \"Business\" and busNews(1, Title, Txt) should be derived."
+    },
+    "example2": {
+      "Fact1": "The news article 4 has title The spirit of satellite radio and description Only one satellite radio stock is worth buying...and it #39;s not the one that snagged Howard Stern. This is an update of a column that originally ran on September 30.",
+      "Decision": "Yes",
+      "Explanation": "The description explicitly discusses a “satellite radio stock” and an investment recommendation, which is clearly business/markets oriented. This fuzzily matches the Business label, so busNews(4, Title, Txt) holds."
+    },
+    "example3": {
+      "Fact1": "The news article 12 has title NBA Game Summary - New Orleans at Utah and description Salt Lake City, UT (Sports Network) - Lee Nailon finished ...in of the season, 76-75, over the Utah Jazz at the Delta Center.",
+      "Decision": "No",
+      "Explanation": "This is a sports game recap (players, scores, game outcome) and contains no business/commerce/market content. Txt does not match \"Business\", so busNews(12, Title, Txt) should not be derived."
+    }
+  },
+  "@softbinding stckNews(ID, Title, Txt) :- busNews(ID, Title, Txt), Txt ~ \"Stocks\".": {
+    "example1": {
+      "Fact1": "The business-related news article 4 has title The spirit of satellite radio and description Only one satellite radio stock is worth buying...and it #39;s not the one that snagged Howard Stern. This is an update of a column that originally ran on September 30.",
+      "Decision": "Yes",
+      "Explanation": "The description contains direct stock-investing language (“satellite radio stock is worth buying”), which strongly indicates the article is about stocks. Hence Txt ≅ \"Stocks\" and stckNews(4, Title, Txt) should be derived."
+    },
+    "example2": {
+      "Fact1": "The business-related news article 7 has title Allied Waste lowers earnings forecast a second time and description Shares of Allied Waste Industries Inc. opened lower Tuesda...auler Tuesday cut its 2004 earnings forecast for the second time.",
+      "Decision": "Yes",
+      "Explanation": "The description discusses a company’s shares and an earnings-forecast cut—classic stock-market reporting. This fuzzily matches \"Stocks\", so stckNews(7, Title, Txt) holds."
+    },
+    "example3": {
+      "Fact1": "The business-related news article 1 has title Candidates Preach Oil Independence to Unconverted Public and description Both major candidates for president want the country to be...r is elected will face many of the same challenges that defeated.",
+      "Decision": "No",
+      "Explanation": "Although business-related, the description focuses on oil independence and policy rather than share prices, markets, or trading. It does not match the \"Stocks\" concept closely enough, so stckNews(1, Title, Txt) should not be derived."
+    }
+  },
+  "@softbinding pump(ID, Title, Txt) :- stckNews(ID, Title, Txt), Txt ~ \"Positive Sentiment\".": {
+    "example1": {
+      "Fact1": "The stock-related business news article 4 has title The spirit of satellite radio and description Only one satellite radio stock is worth buying...and it #39;s not the one that snagged Howard Stern. This is an update of a column that originally ran on September 30.",
+      "Decision": "Yes",
+      "Explanation": "The description recommends a stock as “worth buying,” which is a bullish cue and aligns with a positive market signal. Therefore Txt ≅ \"Positive Sentiment\" and pump(4, Title, Txt) should be derived."
+    },
+    "example2": {
+      "Fact1": "The stock-related business news article 25 has title OSI Jumps on Pancreatic Cancer Trial and description Shares of OSI Pharmaceuticals Inc. (OSIP.O: Quote, Profile...wn to prolong the lives of patients with cancer of the pancreas.",
+      "Decision": "Yes",
+      "Explanation": "The description says the shares “jumped” (up strongly) on trial news, which is a clearly positive/bullish framing. This matches \"Positive Sentiment\", so pump(25, Title, Txt) holds."
+    },
+    "example3": {
+      "Fact1": "The stock-related business news article 7 has title Allied Waste lowers earnings forecast a second time and description Shares of Allied Waste Industries Inc. opened lower Tuesda...auler Tuesday cut its 2004 earnings forecast for the second time.",
+      "Decision": "No",
+      "Explanation": "The description reports shares opening lower and an earnings forecast being cut—distinctly negative language. It does not match \"Positive Sentiment\", so do not derive pump(7, Title, Txt)."
+    }
+  },
+  "@softbinding dump(ID, Title, Txt) :- stckNews(ID, Title, Txt), Txt ~ \"Negative Sentiment\".": {
+    "example1": {
+      "Fact1": "The stock-related business news article 7 has title Allied Waste lowers earnings forecast a second time and description Shares of Allied Waste Industries Inc. opened lower Tuesda...auler Tuesday cut its 2004 earnings forecast for the second time.",
+      "Decision": "Yes",
+      "Explanation": "The description highlights shares dropping and a lowered earnings forecast, both indicating bearish sentiment. Thus Txt ≅ \"Negative Sentiment\" and dump(7, Title, Txt) should be derived."
+    },
+    "example2": {
+      "Fact1": "The stock-related business news article 17 has title Delta, US Air Slump As Bankruptcies Eyed and description Investors pulled back from shares of major air carriers Fr...cerns loomed that US Airways Group Inc. and Delta Air Lines Inc.",
+      "Decision": "Yes",
+      "Explanation": "The description notes investors pulling back and airline shares slumping amid bankruptcy fears—strongly negative framing. This matches \"Negative Sentiment\", so dump(17, Title, Txt) holds."
+    },
+    "example3": {
+      "Fact1": "The stock-related business news article 4 has title The spirit of satellite radio and description Only one satellite radio stock is worth buying...and it #39;s not the one that snagged Howard Stern. This is an update of a column that originally ran on September 30.",
+      "Decision": "No",
+      "Explanation": "The description is bullish/recommendatory (“worth buying”), which conflicts with negative sentiment. Txt does not match \"Negative Sentiment\", so do not derive dump(4, Title, Txt)."
+    }
+  }
+}
