@@ -4,7 +4,7 @@
 
 @bind("news", "csv useHeaders=false", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\AgNews\\dataset", "agnews10.csv").
 @glossary("C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\AgNews\\glossary\\short_glossary.json").
-% @examples("C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\AgNews\\prompt\\examples.json").
+@examples("C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\AgNews\\prompt\\examples.json").
 
 % news: id,title,news_description
 
