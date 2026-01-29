@@ -1,5 +1,5 @@
 import pandas as pd
-import json
+import json, csv
 import argparse
 
 """
@@ -21,7 +21,7 @@ def fill_template(template, values):
     return result
 
 def verbalize(input_csv, glossary_path, predicate_key, output_path):
-    df = pd.read_csv(input_csv)
+    df = pd.read_csv(input_csv,  engine="python", escapechar="\\", quoting=csv.QUOTE_MINIMAL)
     glossary = load_glossary(glossary_path)
 
     try:

@@ -1,13 +1,15 @@
-@bind("id",  "csv useHeaders=false", "/../dataset",  "id.csv").
+@bind("id",  "csv useHeaders=false", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\FI-Integ\\chase",  "id.csv").
 @input("id").
+
+idX(I, ID1, N1, D1, C1, T1) :- id(I, ID1, N1, D1, C1, T1).
 
 % Query Q
 link(ID1, ID2) :-
-    id(I, ID1, N1, D1, C1, T1),
-    id(I, ID2, N2, D2, C2, T2),
+    idX(I, ID1, N1, D1, C1, T1),
+    idX(I, ID2, N2, D2, C2, T2),
     ID1 <> ID2.
 
 @output("link").
-@bind("link",  "csv useHeaders=false", "/../dataset",  "link.csv").
+@bind("link",  "csv useHeaders=false", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\FI-Integ\\chase",  "link.csv").
 @executionMode("distributed").
 

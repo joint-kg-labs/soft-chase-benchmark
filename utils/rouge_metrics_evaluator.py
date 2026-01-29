@@ -1,112 +1,195 @@
+import argparse
+from typing import Dict, List, Tuple
+
 import pandas as pd
 from rouge_score import rouge_scorer
-import argparse
 
-"""
-Example usage:
-
-Assuming you have two CSV files:
-- `gold.csv` containing the gold standard verbalized facts (one per line)
-- `retrieved.csv` containing the retrieved verbalized facts (one per line)
-
-Run the script as:
-
-    python evaluate_rouge_metrics.py --gold gold.csv --retrieved retrieved.csv
-
-This will compute and print:
-
-    - ROUGE-N Precision
-    - ROUGE-N Recall
-    - ROUGE-L Precision
-    - ROUGE-L Recall
-
-Each metric is calculated by comparing every retrieved fact against all gold facts using the highest matching score (as described in the soft CQ answering evaluation specification).
-"""
+# Optional but recommended for speed
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
 
 
-def load_text_facts(file_path):
+def load_text_facts(file_path: str) -> List[str]:
     df = pd.read_csv(file_path, header=None)
     return df[0].astype(str).tolist()
 
-def compute_match_n_precision_recall(gold_facts, retrieved_facts, n=1):
-    scorer = rouge_scorer.RougeScorer([f'rouge{n}'], use_stemmer=True)
-    total_match_n_retrieved = 0
-    total_ngrams_retrieved = 0
 
-    for rf in retrieved_facts:
-        best_match = 0
-        best_total = 0
-        for gf in gold_facts:
-            scores = scorer.score(gf, rf)[f'rouge{n}']
-            match = scores.precision * scores.predicted_count
-            if match > best_match:
-                best_match = match
-                best_total = scores.predicted_count
-        total_match_n_retrieved += best_match
-        total_ngrams_retrieved += best_total
+def build_topk_candidates(
+    gold: List[str],
+    retrieved: List[str],
+    topk: int,
+    min_sim: float = 0.0,
+    ngram_range: Tuple[int, int] = (1, 2),
+    max_features: int = 200_000,
+) -> Tuple[Dict[int, List[int]], Dict[int, List[int]]]:
+    """
+    Returns:
+      - cand_gold_for_retrieved: map r_idx -> list of gold indices to compare against
+      - cand_retrieved_for_gold: map g_idx -> list of retrieved indices to compare against
 
-    total_match_n_gold = 0
-    total_ngrams_gold = 0
+    If topk <= 0, uses all pairs (exact, but slow).
+    """
+    G, R = len(gold), len(retrieved)
+    if topk <= 0:
+        all_gold = list(range(G))
+        all_retr = list(range(R))
+        return (
+            {ri: all_gold for ri in range(R)},
+            {gi: all_retr for gi in range(G)},
+        )
 
-    for gf in gold_facts:
-        best_match = 0
-        best_total = 0
-        for rf in retrieved_facts:
-            scores = scorer.score(gf, rf)[f'rouge{n}']
-            match = scores.recall * scores.reference_count
-            if match > best_match:
-                best_match = match
-                best_total = scores.reference_count
-        total_match_n_gold += best_match
-        total_ngrams_gold += best_total
+    # TF-IDF fit on combined corpus for consistent vocabulary
+    corpus = gold + retrieved
+    vectorizer = TfidfVectorizer(
+        lowercase=True,
+        ngram_range=ngram_range,
+        max_features=max_features,
+        dtype=float,
+    )
+    X = vectorizer.fit_transform(corpus)
+    X_gold = X[:G]
+    X_retr = X[G:]
 
-    precision = total_match_n_retrieved / total_ngrams_retrieved if total_ngrams_retrieved else 0
-    recall = total_match_n_gold / total_ngrams_gold if total_ngrams_gold else 0
-    return precision, recall
+    # Cosine similarity for TF-IDF vectors is dot product because vectors are L2-normalized
+    # We'll compute:
+    #  - for each retrieved: top-k gold
+    #  - for each gold: top-k retrieved
+    cand_gold_for_retrieved: Dict[int, List[int]] = {}
+    cand_retrieved_for_gold: Dict[int, List[int]] = {}
 
-def compute_lcs_precision_recall(gold_facts, retrieved_facts):
-    scorer = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
-    lcs_match_retrieved = 0
-    lcs_total_retrieved = 0
-    for rf in retrieved_facts:
-        best_lcs = 0
-        length_rf = len(rf.split())
-        for gf in gold_facts:
-            score = scorer.score(gf, rf)['rougeL']
-            lcs = score.precision * length_rf
-            best_lcs = max(best_lcs, lcs)
-        lcs_match_retrieved += best_lcs
-        lcs_total_retrieved += length_rf
+    # retrieved -> gold
+    sim_rg = linear_kernel(X_retr, X_gold)  # shape (R, G)
+    for ri in range(R):
+        row = sim_rg[ri]
+        # get topk indices without full sort
+        k = min(topk, G)
+        top_idx = row.argsort()[-k:][::-1]
+        if min_sim > 0.0:
+            top_idx = [gi for gi in top_idx if row[gi] >= min_sim]
+        cand_gold_for_retrieved[ri] = list(top_idx)
 
-    lcs_match_gold = 0
-    lcs_total_gold = 0
-    for gf in gold_facts:
-        best_lcs = 0
-        length_gf = len(gf.split())
-        for rf in retrieved_facts:
-            score = scorer.score(gf, rf)['rougeL']
-            lcs = score.recall * length_gf
-            best_lcs = max(best_lcs, lcs)
-        lcs_match_gold += best_lcs
-        lcs_total_gold += length_gf
+    # gold -> retrieved
+    sim_gr = sim_rg.T  # shape (G, R)
+    for gi in range(G):
+        row = sim_gr[gi]
+        k = min(topk, R)
+        top_idx = row.argsort()[-k:][::-1]
+        if min_sim > 0.0:
+            top_idx = [ri for ri in top_idx if row[ri] >= min_sim]
+        cand_retrieved_for_gold[gi] = list(top_idx)
 
-    precision = lcs_match_retrieved / lcs_total_retrieved if lcs_total_retrieved else 0
-    recall = lcs_match_gold / lcs_total_gold if lcs_total_gold else 0
-    return precision, recall
+    return cand_gold_for_retrieved, cand_retrieved_for_gold
+
+
+def compute_rouge_bestmatch_with_candidates(
+    gold: List[str],
+    retrieved: List[str],
+    cand_gold_for_retrieved: Dict[int, List[int]],
+    cand_retrieved_for_gold: Dict[int, List[int]],
+) -> Tuple[float, float, float, float]:
+    """
+    Computes:
+      - ROUGE-1 Precision (best match per retrieved, averaged)
+      - ROUGE-1 Recall    (best match per gold, averaged)
+      - ROUGE-L Precision (best match per retrieved, averaged)
+      - ROUGE-L Recall    (best match per gold, averaged)
+
+    Uses a single RougeScorer call per evaluated pair, requesting both rouge1 and rougeL.
+    """
+    scorer = rouge_scorer.RougeScorer(["rouge1", "rougeL"], use_stemmer=True)
+
+    best_p_r1 = [0.0] * len(retrieved)
+    best_p_rl = [0.0] * len(retrieved)
+    best_r_r1 = [0.0] * len(gold)
+    best_r_rl = [0.0] * len(gold)
+
+    # Precision side: for each retrieved, compare only candidate golds
+    for ri, rf in enumerate(retrieved):
+        best_p1 = 0.0
+        best_pL = 0.0
+        for gi in cand_gold_for_retrieved.get(ri, []):
+            gf = gold[gi]
+            scores = scorer.score(gf, rf)
+            r1 = scores["rouge1"]
+            rl = scores["rougeL"]
+            if r1.precision > best_p1:
+                best_p1 = r1.precision
+            if rl.precision > best_pL:
+                best_pL = rl.precision
+        best_p_r1[ri] = best_p1
+        best_p_rl[ri] = best_pL
+
+    # Recall side: for each gold, compare only candidate retrieveds
+    for gi, gf in enumerate(gold):
+        best_r1 = 0.0
+        best_rL = 0.0
+        for ri in cand_retrieved_for_gold.get(gi, []):
+            rf = retrieved[ri]
+            scores = scorer.score(gf, rf)
+            r1 = scores["rouge1"]
+            rl = scores["rougeL"]
+            if r1.recall > best_r1:
+                best_r1 = r1.recall
+            if rl.recall > best_rL:
+                best_rL = rl.recall
+        best_r_r1[gi] = best_r1
+        best_r_rl[gi] = best_rL
+
+    r1_p = sum(best_p_r1) / len(best_p_r1) if best_p_r1 else 0.0
+    r1_r = sum(best_r_r1) / len(best_r_r1) if best_r_r1 else 0.0
+    rl_p = sum(best_p_rl) / len(best_p_rl) if best_p_rl else 0.0
+    rl_r = sum(best_r_rl) / len(best_r_rl) if best_r_rl else 0.0
+    return r1_p, r1_r, rl_p, rl_r
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Evaluate ROUGE-N and ROUGE-L for soft CQ answers")
-    parser.add_argument("--gold", type=str, required=True, help="CSV with gold standard verbalized facts")
-    parser.add_argument("--retrieved", type=str, required=True, help="CSV with retrieved verbalized facts")
+    parser = argparse.ArgumentParser(description="Evaluate ROUGE-1 and ROUGE-L with top-k candidate filtering")
+    parser.add_argument("--gold", type=str, required=True, help="CSV with gold standard verbalized facts (one per line)")
+    parser.add_argument("--retrieved", type=str, required=True, help="CSV with retrieved verbalized facts (one per line)")
+
+    # Speed/quality knobs
+    parser.add_argument(
+        "--topk",
+        type=int,
+        default=20,
+        help="Compare each item only to top-k candidates by TF-IDF similarity. Use 0 for exact all-pairs (slow). Default: 20",
+    )
+    parser.add_argument(
+        "--min-sim",
+        type=float,
+        default=0.0,
+        help="Optional minimum TF-IDF cosine similarity threshold to keep a candidate (0 disables).",
+    )
+    parser.add_argument(
+        "--tfidf-max-features",
+        type=int,
+        default=200_000,
+        help="Max TF-IDF vocabulary size. Lower = faster/less memory. Default: 200000",
+    )
+
     args = parser.parse_args()
 
     gold = load_text_facts(args.gold)
     retrieved = load_text_facts(args.retrieved)
 
-    r1_p, r1_r = compute_match_n_precision_recall(gold, retrieved, n=1)
-    rl_p, rl_r = compute_lcs_precision_recall(gold, retrieved)
+    cand_gold_for_retrieved, cand_retrieved_for_gold = build_topk_candidates(
+        gold=gold,
+        retrieved=retrieved,
+        topk=args.topk,
+        min_sim=args.min_sim,
+        ngram_range=(1, 2),
+        max_features=args.tfidf_max_features,
+    )
 
-    print("\n==== ROUGE Evaluation ====")
+    r1_p, r1_r, rl_p, rl_r = compute_rouge_bestmatch_with_candidates(
+        gold=gold,
+        retrieved=retrieved,
+        cand_gold_for_retrieved=cand_gold_for_retrieved,
+        cand_retrieved_for_gold=cand_retrieved_for_gold,
+    )
+
+    print("\n==== ROUGE Evaluation (top-k candidate filtering) ====")
+    print(f"Top-k: {args.topk} (0 = exact all-pairs)")
     print(f"ROUGE-1 Precision: {r1_p:.4f}")
     print(f"ROUGE-1 Recall:    {r1_r:.4f}")
     print(f"ROUGE-L Precision: {rl_p:.4f}")

@@ -1,7 +1,7 @@
-@bind("isin",  "csv useHeaders=false", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\FI-Integ\\dataset",  "ISIN.csv").
-@bind("cusip", "csv useHeaders=false", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\FI-Integ\\dataset", "CUSIP.csv").
-@bind("figi",  "csv useHeaders=false", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\FI-Integ\\dataset",  "FIGI.csv").
-@bind("sedol", "csv useHeaders=false", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\FI-Integ\\dataset", "SEDOL.csv").
+@bind("isin",  "csv useHeaders=false", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\FI-Integ\\dataset\\100",  "ISIN.csv").
+@bind("cusip", "csv useHeaders=false", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\FI-Integ\\dataset\\100", "CUSIP.csv").
+@bind("figi",  "csv useHeaders=false", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\FI-Integ\\dataset\\100",  "FIGI.csv").
+@bind("sedol", "csv useHeaders=false", "C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\FI-Integ\\dataset\\100", "SEDOL.csv").
 
 @glossary("C:\\Users\\matte\\Documents\\ClonedProjects\\SoftChaseBenchmark\\soft-chase-benchmark\\scenarios\\FI-Integ\\glossary\\short_glossary.json").
 
