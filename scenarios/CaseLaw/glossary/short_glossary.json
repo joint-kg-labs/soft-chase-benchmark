@@ -1,17 +1,12 @@
 {
   "glossary_type": "Short",
-  "domain_context": "Analyze court cases to link transcripts, detect citations from head-matter mentions, match new cases to prior cases by offense, propagate recommended citations, and return only recommended precedents that resulted in a conviction.",
+  "domain_context": "Analyze court cases to match new cases to prior cases by offense, propagate recommended citations through the citation graph, and return only recommended precedents whose decisions indicate a conviction was upheld.",
   "predicate_verbalization": {
-    "case": "Case with id arg0 has name arg1, decision date arg2, jurisdiction arg3, parties arg4, offense arg5, punishment arg6, and decision arg7.",
-    "casedet": "Case details with id arg0 contain head matter arg1, corrections arg2, and opinions arg3.",
+    "cases": "Existing case arg0 has name arg1, offense arg2, punishment arg3, decision arg4, and convicted flag arg5.",
     "newcase": "New case arg0 has name arg1 and offense arg2.",
-    "t": "Case arg0 with name arg1 is linked to head matter arg2 and opinions arg3.",
-    "mayCite": "New case arg0 may cite case arg1 (same offense).",
     "cites": "Case arg0 cites case arg1.",
-    "shouldCite": "Case arg0 should cite case arg1.",
-    "relevantCase": "New case arg0 has relevant precedent case arg1 with name arg2."
-  },
-  "linking_operator": {
-    "@softbinding relevantCase(IDN, IDC, Name) :- shouldCite(IDN, IDC), case(IDC, Name, DecDate, Jurisdiction, Parties, Off, Pun, Decision), Decision ~ \"convicted\".": ["Decision is expressing a conviction for the defendant."]
+    "mayCite": "New case arg0 may cite case arg1 because they share the same offense.",
+    "shouldCite": "New case arg0 should cite case arg1 (directly or through transitive citation).",
+    "relevantCase": "For new case arg0, case arg1 is a relevant precedent with name arg2."
   }
 }

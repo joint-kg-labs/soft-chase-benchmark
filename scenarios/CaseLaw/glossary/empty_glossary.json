@@ -2,16 +2,11 @@
   "glossary_type": "Empty",
   "domain_context": "",
   "predicate_verbalization": {
-    "case": "case(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)",
-    "casedet": "casedet(arg0, arg1, arg2, arg3)",
+    "cases": "cases(arg0, arg1, arg2, arg3, arg4, arg5)",
     "newcase": "newcase(arg0, arg1, arg2)",
-    "t": "t(arg0, arg1, arg2, arg3)",
-    "mayCite": "mayCite(arg0, arg1)",
     "cites": "cites(arg0, arg1)",
+    "mayCite": "mayCite(arg0, arg1)",
     "shouldCite": "shouldCite(arg0, arg1)",
     "relevantCase": "relevantCase(arg0, arg1, arg2)"
-  },
-  "linking_operator": {
-    "@softbinding relevantCase(IDN, IDC, Name) :- shouldCite(IDN, IDC), case(IDC, Name, DecDate, Jurisdiction, Parties, Off, Pun, Decision), Decision ~ \"convicted\".": ["Decision is expressing a conviction for the defendant."]
   }
 }

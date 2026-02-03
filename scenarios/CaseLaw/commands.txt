@@ -1,0 +1,5 @@
+python ../../utils/verbalizer_from_glossary.py --input ground_truth/600/golden_set_fscore.csv --glossary glossary/short_glossary.json --predicate relevantCase --output ground_truth/600/golden_set_rouge_short.csv
+
+python ../../utils/verbalizer_from_glossary.py --input ground_truth/600/golden_set_fscore.csv --glossary glossary/empty_glossary.json --predicate relevantCase --output ground_truth/600/golden_set_rouge_empty.csv
+
+python ../../utils/verbalizer_from_glossary.py --input ground_truth/600/golden_set_fscore.csv --glossary glossary/long_glossary.json --predicate relevantCase --output ground_truth/600/golden_set_rouge_long.csv
