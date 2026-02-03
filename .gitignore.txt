@@ -28,3 +28,6 @@ log/
 # Ignore system files
 .DS_Store
 Thumbs.db
+
+# Ignore all files under any folder named "chase"
+**/chase/**
