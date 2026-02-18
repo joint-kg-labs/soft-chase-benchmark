@@ -30,4 +30,4 @@ log/
 Thumbs.db
 
 # Ignore all files under any folder named "chase"
-**/chase/**
+chase/*
