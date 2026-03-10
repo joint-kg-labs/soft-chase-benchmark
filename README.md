@@ -60,13 +60,18 @@ soft-chase-benchmark/
 │   │   ├── ontology/
 │   │   └── prompt/
 │   │
-│   └── FI-Integ/                # Financial entity alignment and integration
-│       ├── dataset/
-│       ├── generation_script/
-│       ├── glossary/
-│       ├── ground_truth/
-│       ├── ontology/
-│       └── prompt/
+│   ├── FI-Integ/                # Financial entity alignment and integration
+│   │   ├── dataset/
+│   │   ├── generation_script/
+│   │   ├── glossary/
+│   │   ├── ground_truth/
+│   │   ├── ontology/
+│   │   └── prompt/
+│   │
+│   └── SymbolicChaseScenarios/  # Pure symbolic chase benchmarks and support material
+│       ├── graphs/              # Graph datasets for symbolic chase experiments
+│       ├── ontology/            # Symbolic ontologies (e.g., TC, SG)
+│       └── miscellaneous/       # Auxiliary files, notes, and experiment resources
 │
 ├── utils/
 │   ├── fscore_evaluator.py          # Precision / Recall / F1 evaluation
@@ -101,7 +106,7 @@ This scenario highlights **reasoning under semantic approximation**.
 
 ### 2. CaseLaw — Legal Precedent and Compliance Reasoning
 
-This scenario is based on a corpus of U.S. court decisions and targets **precedent discovery** and **compliance-oriented reasoning**.
+This scenario is based on **CaseLaw** ([https://case.law/](https://case.law/)), a large corpus of U.S. court decisions, and targets **precedent discovery** and **compliance-oriented reasoning**.
 
 Soft Chase combines:
 
@@ -115,17 +120,17 @@ This scenario highlights **domain-specific reasoning** and **recursive inference
 
 ### 3. AgNews — Noisy Text Classification and Sentiment Analysis
 
-This scenario evaluates reasoning over news data that may be:
+This scenario is based on the **AG News Classification Dataset** ([Kaggle](https://www.kaggle.com/datasets/amananandrai/ag-news-classification-dataset)) and evaluates reasoning over news data that may be:
 
-* incomplete
-* inconsistently labeled
-* semantically noisy
+- incomplete
+- inconsistently labeled
+- semantically noisy
 
 Soft Chase is applied to:
 
-* categorize articles into topics
-* identify stock-related content
-* support sentiment-oriented downstream reasoning
+- categorize articles into topics
+- identify stock-related content
+- support sentiment-oriented downstream reasoning
 
 This scenario highlights **robustness to noisy and weakly structured textual data**.
 
