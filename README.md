@@ -29,7 +29,7 @@ The goal of the benchmark is to support **systematic and reproducible evaluation
 - **reasoning quality**, such as Precision, Recall, and F1
 - **semantic/textual quality**, such as ROUGE-based similarity on verbalized outputs
 
-It expoits the **RAG Module** implemented in this [https://github.com/joint-kg-labs/soft-chase] repository.
+It expoits the **RAG Module** implemented in this ([https://github.com/joint-kg-labs/soft-chase] repository).
 The istructions to use it are located in the README.md file.
 
 ---
