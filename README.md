@@ -270,7 +270,7 @@ If you use this benchmark suite in your research, please cite the associated pap
   title     = {Softening the Chase: Exploiting the Power of Large Language Models in Datalog-based Reasoning},
   author    = {Baldazzi, Teodoro and Bellomarini, Luigi and Benedetto, Davide and Brandetti, Matteo and Sallinger, Emanuel and Vlad, Adriano},
   booktitle = {Proceedings of ...},
-  year      = {2025}
+  year      = {2026}
 }
 ```
 
