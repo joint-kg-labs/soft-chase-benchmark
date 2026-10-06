@@ -273,9 +273,6 @@ If you use this benchmark suite in your research, please cite the associated pap
   year      = {2026}
 }
 ```
-
-If the final venue metadata is available, please replace the placeholder entry above with the camera-ready citation.
-
 ---
 
 ## License
